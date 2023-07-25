@@ -1,11 +1,11 @@
 package be.hize.nes.features.misc.update
 
 
-import at.hannibal2.skyhanni.utils.LorenzLogger
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import be.hize.nes.NES
 import be.hize.nes.config.core.config.features.About
 import be.hize.nes.events.ConfigLoadEvent
+import be.hize.nes.utils.NESLogger
 import be.hize.nes.utils.NESUtils.onToggle
 import io.github.moulberry.moulconfig.processor.MoulConfigProcessor
 import io.github.moulberry.notenoughupdates.util.MinecraftExecutor
@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture
 
 object UpdateManager {
 
-    private val logger = LorenzLogger("update_manager")
+    private val logger = NESLogger("update_manager")
     private var _activePromise: CompletableFuture<*>? = null
     private var activePromise: CompletableFuture<*>?
         get() = _activePromise

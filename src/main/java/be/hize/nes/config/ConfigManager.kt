@@ -1,11 +1,10 @@
 package be.hize.nes.config
 
-import at.hannibal2.skyhanni.features.garden.CropType
-import at.hannibal2.skyhanni.utils.LorenzLogger
 import at.hannibal2.skyhanni.utils.LorenzVec
 import at.hannibal2.skyhanni.utils.NEUItems
 import be.hize.nes.NES
 import be.hize.nes.features.misc.update.UpdateManager
+import be.hize.nes.utils.NESLogger
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
@@ -60,7 +59,7 @@ class ConfigManager {
 
     lateinit var features: Features
         private set
-    private val logger = LorenzLogger("config_manager")
+    private val logger = NESLogger("config_manager")
 
     var configDirectory = File("config/nes")
     private var configFile: File? = null

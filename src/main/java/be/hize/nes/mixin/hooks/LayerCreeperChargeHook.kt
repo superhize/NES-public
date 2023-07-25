@@ -16,8 +16,7 @@ fun modifyChargedCreeperLayer(res: ResourceLocation): ResourceLocation {
     val res = res
     if (LorenzUtils.inSkyBlock && NES.feature.misc.ghost.recolorCreeper.get() && !updated) {
         updated = true
-        fillImageWithColor(res, Color(SpecialColour.specialToChromaRGB(NES.feature.misc.ghost.truc.get())), res)
-        println("updating")
+        fillImageWithColor(res, Color(SpecialColour.specialToChromaRGB(NES.feature.misc.ghost.creeperColor.get())), res)
     }
     return res
 }

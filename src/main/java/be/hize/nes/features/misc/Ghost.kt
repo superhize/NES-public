@@ -13,9 +13,8 @@ class Ghost {
     @SubscribeEvent
     fun onConfigLoad(event: ConfigLoadEvent){
         onToggle(config.color,
-            config.enabled,
             config.recolorMist,
-            config.truc){
+            config.creeperColor){
             Minecraft.getMinecraft().renderGlobal.loadRenderers()
             updated = false
         }

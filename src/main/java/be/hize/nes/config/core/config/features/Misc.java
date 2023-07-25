@@ -68,15 +68,11 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Ghost", desc = "")
+    @ConfigOption(name = "Mist", desc = "")
     @Accordion
     public Ghost ghost = new Ghost();
 
     public static class Ghost {
-        @Expose
-        @ConfigOption(name = "Enabled", desc = "ghost")
-        @ConfigEditorBoolean
-        public Property<Boolean> enabled = Property.of(true);
 
         @Expose
         @ConfigOption(name = "Recolor mist", desc = "change color of blocs in the mist")
@@ -104,7 +100,7 @@ public class Misc {
         public Property<Integer> color = Property.of(7);
 
         @Expose
-        @ConfigOption(name = "Recolor mist", desc = "change color of blocs in the mist")
+        @ConfigOption(name = "Recolor creeper", desc = "change color of blocs in the mist")
         @ConfigEditorBoolean
         public Property<Boolean> recolorCreeper = Property.of(true);
 
@@ -112,7 +108,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Creeper color", desc = "Choose creeper color")
         @ConfigEditorColour
-        public Property<String> truc = Property.of("0:245:85:255:85");
+        public Property<String> creeperColor = Property.of("0:245:85:255:85");
 
     }
 

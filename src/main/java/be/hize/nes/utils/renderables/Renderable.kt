@@ -2,9 +2,9 @@ package be.hize.nes.utils.renderables
 
 import at.hannibal2.skyhanni.data.ToolTipData
 import at.hannibal2.skyhanni.utils.LorenzColor
-import at.hannibal2.skyhanni.utils.LorenzLogger
 import at.hannibal2.skyhanni.utils.NEUItems.renderOnScreen
 import be.hize.nes.config.core.config.gui.GuiPositionEditor
+import be.hize.nes.utils.NESLogger
 import io.github.moulberry.moulconfig.gui.GuiScreenElementWrapper
 import io.github.moulberry.notenoughupdates.util.Utils
 import net.minecraft.client.Minecraft
@@ -30,7 +30,7 @@ interface Renderable {
     fun render(posX: Int, posY: Int)
 
     companion object {
-        val logger = LorenzLogger("debug/renderable")
+        val logger = NESLogger("debug/renderable")
 
         fun fromAny(any: Any?, itemScale: Double = 1.0): Renderable? = when (any) {
             null -> placeholder(12)
