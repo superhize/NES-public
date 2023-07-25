@@ -21,7 +21,7 @@ object Commands {
                 GuiEditManager.openGuiPositionEditor()
             } else {
                 ConfigGuiManager.openConfigGui(it.joinToString(" "))
-            }d
+            }
         } else {
             ConfigGuiManager.openConfigGui()
         }
