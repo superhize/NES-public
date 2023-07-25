@@ -86,8 +86,7 @@ class ConfigManager {
                 val bufferedReader = BufferedReader(inputStreamReader)
                 val builder = StringBuilder()
                 for (line in bufferedReader.lines()) {
-                    val result = fixConfig(line)
-                    builder.append(result)
+                    builder.append(line)
                     builder.append("\n")
                 }
 
@@ -127,18 +126,6 @@ class ConfigManager {
             features,
             processor
         )
-    }
-
-    private fun fixConfig(line: String): String {
-        var result = line
-        for (type in CropType.values()) {
-            val normal = "\"${type.cropName}\""
-            val enumName = "\"${type.name}\""
-            while (result.contains(normal)) {
-                result = result.replace(normal, enumName)
-            }
-        }
-        return result
     }
 
     fun saveConfig(reason: String) {
