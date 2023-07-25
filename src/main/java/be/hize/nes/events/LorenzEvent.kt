@@ -1,0 +1,25 @@
+package be.hize.nes.events
+
+import at.hannibal2.skyhanni.test.command.CopyErrorCommand
+import at.hannibal2.skyhanni.utils.LorenzUtils
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.fml.common.eventhandler.Event
+
+abstract class LorenzEvent : Event() {
+
+    private val eventName by lazy {
+        this::class.simpleName
+    }
+
+    fun postAndCatch(): Boolean {
+        return runCatching {
+            MinecraftForge.EVENT_BUS.post(this)
+        }.onFailure {
+            if (it is NoSuchMethodError) {
+                LorenzUtils.chat("§c[SkyHanni] You need to use a newer version of NotEnoughUpdates (alpha-11 or newer)! If you need help downloading it, go to the skyhanni discord.")
+            } else {
+                CopyErrorCommand.logError(it, "Caught an ${it::class.simpleName ?: "error"} at ${eventName}: '${it.message}'")
+            }
+        }.getOrDefault(isCanceled)
+    }
+}
