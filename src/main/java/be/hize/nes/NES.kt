@@ -10,6 +10,7 @@ import be.hize.nes.features.inventory.ChestValue
 import be.hize.nes.features.misc.*
 import be.hize.nes.features.misc.coordinate.ShowCoordinate
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
+import be.hize.nes.features.misc.update.UpdateManager
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -32,7 +33,7 @@ import org.apache.logging.log4j.Logger
     clientSideOnly = true,
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
-    version = "0.1.Beta.1",
+    version = "0.1.Beta.0",
     name = "NotEnoughSkyhanni")
 internal class NES {
 
@@ -50,6 +51,7 @@ internal class NES {
         loadModule(Ghost())
         loadModule(ButtonOnPause())
         loadModule(ChestValue())
+        loadModule(UpdateManager)
 
         init()
     }
