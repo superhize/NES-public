@@ -1,22 +1,100 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     idea
     java
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    kotlin("jvm") version "1.8.20-RC"
+    kotlin("plugin.serialization") version "1.8.0"
 }
 
 //Constants:
 
-val baseGroup: String by project
-val mcVersion: String by project
-val version: String by project
-val mixinGroup = "$baseGroup.mixin"
-val modid: String by project
+val modid = "nes"
+group = "be.hize.nes"
+version = "0.1.Beta.1"
+val mcVersion = "1.8.9"
+val mixinGroup = "$group.mixin"
 
 // Toolchains:
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+}
+// Dependencies:
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven("https://repo.spongepowered.org/maven/")
+    // If you don't want to log in with your real minecraft account, remove this line
+    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+    maven("https://jitpack.io") {
+        content {
+            includeGroupByRegex("com\\.github\\..*")
+        }
+    }
+    maven("https://repo.nea.moe/releases")
+}
+
+val shadowImpl by configurations.creating {
+    configurations.implementation.get().extendsFrom(this)
+}
+
+val shadowModImpl by configurations.creating {
+    configurations.modImplementation.get().extendsFrom(this)
+}
+
+val devenvMod by configurations.creating {
+    isTransitive = false
+    isVisible = false
+}
+
+dependencies {
+    minecraft("com.mojang:minecraft:1.8.9")
+    mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
+    forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
+
+    shadowImpl("com.github.ILikePlayingGames:DiscordIPC:f91ed4b") {
+        exclude(module = "log4j")
+        because("Different version conflicts with Minecraft's Log4J")
+        exclude(module = "gson")
+        because("Different version conflicts with Minecraft's Log4j")
+    }
+
+    // If you don't want mixins, remove these lines
+    shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
+        isTransitive = false
+    }
+    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
+
+    implementation(kotlin("stdlib-jdk8"))
+    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
+
+    // If you don't want to log in with your real minecraft account, remove this line
+    modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
+
+    implementation("com.github.hannibal002:notenoughupdates:4957f0b:all")
+    devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all")
+
+    shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
+    devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.1.5:test")
+
+    implementation(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
+    modRuntimeOnly(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
+
+    shadowImpl("moe.nea:libautoupdate:1.0.3")
+}
+kotlin {
+    sourceSets.all {
+        languageSettings {
+            languageVersion = "2.0"
+            enableLanguageFeature("BreakContinueInInlineLambdas")
+        }
+    }
 }
 
 // Minecraft configuration:
@@ -29,6 +107,8 @@ loom {
             property("asmhelper.verbose", "true")
             arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
             arg("--mixin", "mixins.$modid.json")
+            val modFiles = devenvMod.incoming.artifacts.resolvedArtifacts.get()
+            arg("--mods", modFiles.joinToString(",") { it.file.relativeTo(file("run")).path })
         }
     }
     forge {
@@ -40,39 +120,11 @@ loom {
     mixin {
         defaultRefmapName.set("mixins.$modid.refmap.json")
     }
-}
-
-sourceSets.main {
-    output.resourcesDir = file("$buildDir/classes/java/main")
-}
-
-// Dependencies:
-
-repositories {
-    mavenCentral()
-    maven("https://repo.spongepowered.org/maven/")
-    // If you don't want to log in with your real minecraft account, remove this line
-    maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
-}
-
-val shadowImpl: Configuration by configurations.creating {
-    configurations.implementation.get().extendsFrom(this)
-}
-
-dependencies {
-    minecraft("com.mojang:minecraft:1.8.9")
-    mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
-    forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
-
-    // If you don't want mixins, remove these lines
-    shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
-        isTransitive = false
+    runConfigs {
+        "server" {
+            isIdeConfigGenerated = false
+        }
     }
-    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
-
-    // If you don't want to log in with your real minecraft account, remove this line
-    runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
-
 }
 
 // Tasks:
@@ -82,7 +134,8 @@ tasks.withType(JavaCompile::class) {
 }
 
 tasks.withType(Jar::class) {
-    archiveBaseName.set(modid)
+    archiveBaseName.set("nes")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest.attributes.run {
         this["FMLCorePluginContainsFMLMod"] = "true"
         this["ForceLoadAsMod"] = "true"
@@ -106,31 +159,51 @@ tasks.processResources {
     rename("(.+_at.cfg)", "META-INF/$1")
 }
 
-
 val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     archiveClassifier.set("")
     from(tasks.shadowJar)
     input.set(tasks.shadowJar.get().archiveFile)
 }
 
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+
 tasks.jar {
-    archiveClassifier.set("without-deps")
+    archiveClassifier.set("nodeps")
     destinationDirectory.set(layout.buildDirectory.dir("badjars"))
 }
 
 tasks.shadowJar {
     destinationDirectory.set(layout.buildDirectory.dir("badjars"))
     archiveClassifier.set("all-dev")
-    configurations = listOf(shadowImpl)
+    configurations = listOf(shadowImpl, shadowModImpl)
     doLast {
         configurations.forEach {
-            println("Copying jars into mod: ${it.files}")
+            println("Config: ${it.files}")
         }
     }
+    fun relocate(name: String) = relocate(name, "be.hize.nes.deps.$name")
 
-    // If you want to include other dependencies and shadow them, you can relocate them in here
-    fun relocate(name: String) = relocate(name, "$baseGroup.deps.$name")
+    relocate("io.github.moulberry.moulconfig")
+    relocate("com.jagrosh.discordipc")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
+
+tasks.compileJava {
+    dependsOn(tasks.processResources)
+}
+
+sourceSets.main {
+    kotlin.destinationDirectory.set(java.destinationDirectory)
+    java.srcDir(file("$projectDir/src/main/kotlin"))
+    output.setResourcesDir(java.destinationDirectory)
+}
 

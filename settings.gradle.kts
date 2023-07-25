@@ -23,4 +23,4 @@ plugins {
 }
 
 
-rootProject.name = "NES"
+rootProject.name = "nes"
