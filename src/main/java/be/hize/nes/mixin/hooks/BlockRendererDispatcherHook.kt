@@ -3,6 +3,7 @@ package be.hize.nes.mixin.hooks
 import at.hannibal2.skyhanni.data.IslandType
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import be.hize.nes.NES
+import net.minecraft.block.BlockCarpet
 import net.minecraft.block.BlockStainedGlass
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.BlockRendererDispatcher
@@ -40,10 +41,13 @@ fun modifyGetModelFromBlockState(
     if (!LorenzUtils.inSkyBlock || state == null || pos == null) return
     var returnState = state
     if (LorenzUtils.skyBlockIsland == IslandType.DWARVEN_MINES) {
-        if (NES.feature.misc.ghost.recolorMist.get() && pos.y <= 76) {
+        if (NES.feature.misc.ghost.recolorMist.get() && (pos.y <= 76)) {
             if (state.block === Blocks.stained_glass && (state.getValue(BlockStainedGlass.COLOR) == EnumDyeColor.WHITE ||
                     state.getValue(BlockStainedGlass.COLOR) == colorList[NES.feature.misc.ghost.color.get()])) {
                 returnState = state.withProperty(BlockStainedGlass.COLOR, colorList[NES.feature.misc.ghost.color.get()])
+            } else if (state.block === Blocks.carpet && (state.getValue(BlockCarpet.COLOR) == EnumDyeColor.WHITE ||
+                    state.getValue(BlockCarpet.COLOR) == colorList[NES.feature.misc.ghost.color.get()])) {
+                returnState = state.withProperty(BlockCarpet.COLOR, colorList[NES.feature.misc.ghost.color.get()])
             }
         }
     }

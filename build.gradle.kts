@@ -83,6 +83,7 @@ dependencies {
     shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
     devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.1.5:test")
 
+
     implementation(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
     modRuntimeOnly(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
 
@@ -206,4 +207,3 @@ sourceSets.main {
     java.srcDir(file("$projectDir/src/main/kotlin"))
     output.setResourcesDir(java.destinationDirectory)
 }
-
