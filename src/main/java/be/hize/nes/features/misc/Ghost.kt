@@ -10,13 +10,19 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 class Ghost {
 
     private val config get() = NES.feature.misc.ghost
+
     @SubscribeEvent
-    fun onConfigLoad(event: ConfigLoadEvent){
+    fun onConfigLoad(event: ConfigLoadEvent) {
         onToggle(config.color,
-            config.recolorMist,
-            config.creeperColor){
+            config.recolorMist) {
             Minecraft.getMinecraft().renderGlobal.loadRenderers()
-            updated = false
         }
+
+        onToggle(config.recolorCreeper,
+            config.creeperColor) {
+            updated = false
+            Minecraft.getMinecraft().renderGlobal.loadRenderers()
+        }
+
     }
 }

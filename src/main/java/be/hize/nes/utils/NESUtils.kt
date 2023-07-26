@@ -17,6 +17,10 @@ object NESUtils {
        onChange(*properties) { _, _ -> observer.run() }
     }
 
+    fun <T> Property<out T>.afterChange(observer: T.() -> Unit) {
+        whenChanged { _, new -> observer(new) }
+    }
+
     fun <E> MutableList<List<E>>.addAsSingletonList(text: E) {
         add(Collections.singletonList(text))
     }

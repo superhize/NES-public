@@ -12,13 +12,22 @@ import java.io.IOException
 import javax.imageio.ImageIO
 
 var updated = false
+val default = ResourceLocation("textures/entity/creeper/creeper_armor.png")
+val custom = ResourceLocation("nes", "creeper_armor.png")
 fun modifyChargedCreeperLayer(res: ResourceLocation): ResourceLocation {
+    @Suppress("NAME_SHADOWING")
     val res = res
-    if (LorenzUtils.inSkyBlock && NES.feature.misc.ghost.recolorCreeper.get() && !updated) {
-        updated = true
-        fillImageWithColor(res, Color(SpecialColour.specialToChromaRGB(NES.feature.misc.ghost.creeperColor.get())), res)
+    return if (LorenzUtils.inSkyBlock && NES.feature.misc.ghost.recolorCreeper.get()) {
+        if (!updated) {
+            updated = true
+            fillImageWithColor(res, Color(SpecialColour.specialToChromaRGB(NES.feature.misc.ghost.creeperColor.get())), custom)
+            custom
+        } else {
+            custom
+        }
+    } else {
+        default
     }
-    return res
 }
 
 fun fillImageWithColor(resourceLocation: ResourceLocation, color: Color, outputResourceLocation: ResourceLocation) {

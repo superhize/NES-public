@@ -41,7 +41,8 @@ fun modifyGetModelFromBlockState(
     var returnState = state
     if (LorenzUtils.skyBlockIsland == IslandType.DWARVEN_MINES) {
         if (NES.feature.misc.ghost.recolorMist.get() && pos.y <= 76) {
-            if (state.block === Blocks.stained_glass) {
+            if (state.block === Blocks.stained_glass && (state.getValue(BlockStainedGlass.COLOR) == EnumDyeColor.WHITE ||
+                    state.getValue(BlockStainedGlass.COLOR) == colorList[NES.feature.misc.ghost.color.get()])) {
                 returnState = state.withProperty(BlockStainedGlass.COLOR, colorList[NES.feature.misc.ghost.color.get()])
             }
         }
