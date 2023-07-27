@@ -21,7 +21,3 @@ Basically i take whatever features i like in others mods and i put them here (+e
 - [Skytils](https://github.com/Skytils/SkytilsMod)
 
 May contain features that work as intended
-
-Didn't intended to make it public but why not
-
-do whatever you want with this
