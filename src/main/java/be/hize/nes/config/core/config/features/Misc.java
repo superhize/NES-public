@@ -4,6 +4,7 @@ import be.hize.nes.config.core.config.Position;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.*;
 import io.github.moulberry.moulconfig.observer.Property;
+import org.lwjgl.input.Keyboard;
 
 public class Misc {
 
@@ -95,7 +96,10 @@ public class Misc {
                 "Blue",
                 "Green",
                 "Red",
-                "Black"
+                "Black",
+                "Grey But Black",
+                "Black But Grey",
+                "Yes"
         })
         public Property<Integer> color = Property.of(7);
 
@@ -104,12 +108,10 @@ public class Misc {
         @ConfigEditorBoolean
         public Property<Boolean> recolorCreeper = Property.of(true);
 
-
         @Expose
         @ConfigOption(name = "Creeper color", desc = "Choose creeper color")
         @ConfigEditorColour
         public Property<String> creeperColor = Property.of("0:245:85:255:85");
-
     }
 
     @Expose

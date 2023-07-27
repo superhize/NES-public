@@ -48,7 +48,7 @@ internal class NES {
         loadModule(Facing())
         loadModule(DiscordRPCManager)
         loadModule(Trapper())
-        loadModule(Ghost())
+        loadModule(Ghost)
         loadModule(ButtonOnPause())
         loadModule(ChestValue())
         loadModule(UpdateManager)
