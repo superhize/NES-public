@@ -32,8 +32,6 @@ class ChestValue {
     private val chestItems = mutableMapOf<String, Item>()
     private val slotList = mutableMapOf<Int, ItemStack>()
     private val inInventory get() = InventoryUtils.openInventoryName().isValidStorage()
-    private val posX get() = Utils.getMouseX()
-    private val posY get() = Utils.getMouseY()
 
     @SubscribeEvent
     fun onBackgroundDraw(event: GuiRenderEvent.ChestBackgroundRenderEvent) {
@@ -118,6 +116,7 @@ class ChestValue {
                     val renderable = Renderable.hoverTips(
                         "${stack.displayName} x$amount: §b${(total * stack.stackSize).formatPrice()}",
                         tips,
+                        stack = stack,
                         indexes = index)
                     val dashColor = if (slotList.keys.any { k -> index.contains(k) }) "§a" else "§7"
                     add(" $dashColor- ")
@@ -234,15 +233,5 @@ class ChestValue {
         val tips: MutableList<String>
     )
 
-    fun String.toList(): MutableList<Int> {
-        val trimmedString = replace("[", "").replace("]", "")
-        val elements = trimmedString.split(",").map { it.trim() }
-        val mutableList = mutableListOf<Int>()
-        for (element in elements) {
-            mutableList.add(element.toInt())
-        }
-        return mutableList
-    }
-
-    fun isEnabled() = LorenzUtils.inSkyBlock && config.enabled
+    private fun isEnabled() = LorenzUtils.inSkyBlock && config.enabled
 }
