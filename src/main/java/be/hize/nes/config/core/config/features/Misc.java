@@ -78,7 +78,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Recolor mist", desc = "change color of blocs in the mist")
         @ConfigEditorBoolean
-        public Property<Boolean> recolorMist = Property.of(true);
+        public Property<Boolean> recolorMist = Property.of(false);
 
         @Expose
         @ConfigOption(name = "Mist color", desc = "Choose mist color")
@@ -106,7 +106,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Recolor creeper", desc = "change color of blocs in the mist")
         @ConfigEditorBoolean
-        public Property<Boolean> recolorCreeper = Property.of(true);
+        public Property<Boolean> recolorCreeper = Property.of(false);
 
         @Expose
         @ConfigOption(name = "Creeper color", desc = "Choose creeper color")
@@ -123,7 +123,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show FPS HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         @ConfigOption(name = "Format", desc = "Text format")
@@ -143,7 +143,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show Coordinate HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         public Position position = new Position(0, 10, false, true);
@@ -158,7 +158,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show Coordinate HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         public Position position = new Position(0, 20, false, true);
@@ -173,7 +173,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Render item rarity overlay")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
     }
 
     @Expose
@@ -185,7 +185,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Enable Trevor the trapper helper")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
     }
 
     @Expose
