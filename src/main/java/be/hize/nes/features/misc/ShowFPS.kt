@@ -14,7 +14,7 @@ class ShowFPS {
 
     @SubscribeEvent
     fun onRenderOverlay(event: GuiRenderEvent.GameOverlayRenderEvent) {
-        if (!isEnabled()) return
+        if (!isEnabled() && Minecraft.getMinecraft().currentScreen == null) return
         config.position.renderStrings(display, posLabel = "FPS")
     }
 
