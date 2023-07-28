@@ -1,22 +1,24 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.events.LorenzTickEvent
+import at.hannibal2.skyhanni.utils.LorenzUtils.addAsSingletonList
 import be.hize.nes.NES
 import be.hize.nes.events.GuiRenderEvent
 import be.hize.nes.utils.RenderUtils.renderStrings
+import be.hize.nes.utils.RenderUtils.renderStringsAndItems
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 class ShowFPS {
 
     private val config get() = NES.feature.misc.fps
-    private var display = emptyList<String>()
+    private var display = emptyList<List<Any>>()
 
     @SubscribeEvent
     fun onRenderOverlay(event: GuiRenderEvent.GameOverlayRenderEvent) {
         if (!isEnabled()) return
         if (Minecraft.getMinecraft().theWorld == null) return
-        config.position.renderStrings(
+        config.position.renderStringsAndItems(
             display,
             posLabel = "FPS")
     }
@@ -27,7 +29,7 @@ class ShowFPS {
 
     private fun updateDisplay() = buildList {
         val fps = Minecraft.getDebugFPS()
-        add(config.format.replace("%fps%", "$fps").replace("&", "§"))
+        addAsSingletonList(config.format.replace("%fps%", "$fps").replace("&", "§"))
     }
 
     @SubscribeEvent

@@ -31,6 +31,8 @@ interface Renderable {
 
     companion object {
         val logger = NESLogger("debug/renderable")
+        val list = mutableMapOf<Pair<Int, Int>, List<Int>>()
+
 
         fun fromAny(any: Any?, itemScale: Double = 1.0): Renderable? = when (any) {
             null -> placeholder(12)
@@ -48,8 +50,8 @@ interface Renderable {
             return clickable(hoverable(underlined(renderable), renderable, bypassChecks, condition = condition), onClick, 0, bypassChecks, condition)
         }
 
-        fun clickAndHover(text: String, tips: List<String>, bypassChecks: Boolean = false, onClick: () -> Unit): Renderable {
-            return clickable(hoverTips(text, tips, bypassChecks = bypassChecks), onClick, bypassChecks = bypassChecks)
+        fun clickAndHover(text: String, tips: List<String>, indexes: List<Int> = listOf(), bypassChecks: Boolean = false, onClick: () -> Unit): Renderable {
+            return clickable(hoverTips(text, tips, indexes, bypassChecks = bypassChecks), onClick, bypassChecks = bypassChecks)
         }
 
         fun clickable(render: Renderable, onClick: () -> Unit, button: Int = 0, bypassChecks: Boolean = false, condition: () -> Boolean = { true }) =
@@ -72,7 +74,7 @@ interface Renderable {
                 }
             }
 
-        fun hoverTips(text: String, tips: List<String>, bypassChecks: Boolean = false, condition: () -> Boolean = { true }): Renderable {
+        fun hoverTips(text: String, tips: List<String>, indexes: List<Int> = listOf(), bypassChecks: Boolean = false, condition: () -> Boolean = { true }): Renderable {
             val render = string(text)
             return object : Renderable {
                 override val width: Int
@@ -83,7 +85,12 @@ interface Renderable {
                     render.render(posX, posY)
                     if (isHovered(posX, posY)) {
                         if (condition() && shouldAllowLink(true, bypassChecks)) {
+                            list[Pair(posX, posY)] = indexes
                             renderToolTips(posX, posY, tips)
+                        }
+                    } else {
+                        if (list.contains(Pair(posX, posY))) {
+                            list.remove(Pair(posX, posY))
                         }
                     }
                 }
@@ -92,9 +99,7 @@ interface Renderable {
 
         private fun renderToolTips(posX: Int, posY: Int, tips: List<String>, border: Int = 1) {
             GlStateManager.pushMatrix()
-//            GlStateManager.translate(0f, 0f, 2f)
-//            GuiRenderUtils.drawTooltip(tips, posX, posY, 0)
-//            GlStateManager.translate(0f, 0f, -2f)
+
 
             val x = Utils.getMouseX() - posX + 10
             val startY = Utils.getMouseY() - posY - 10
@@ -123,10 +128,12 @@ interface Renderable {
                 startY - border,
                 x + maxX + 10 + border,
                 y + border,
-                LorenzColor.DARK_GRAY.toColor().rgb
+                LorenzColor.BLACK.toColor().rgb
             )
             GlStateManager.translate(0f, 0f, -1f)
 
+
+            GlStateManager.disableLighting()
             GlStateManager.popMatrix()
         }
 
@@ -178,9 +185,9 @@ interface Renderable {
                 override val height = 10
 
                 override fun render(posX: Int, posY: Int) {
-                    if (isHovered(posX, posY) && condition() && shouldAllowLink(true, bypassChecks))
+                    if (isHovered(posX, posY) && condition() && shouldAllowLink(true, bypassChecks)) {
                         hovered.render(posX, posY)
-                    else
+                    } else
                         unhovered.render(posX, posY)
                 }
             }
