@@ -192,4 +192,9 @@ public class Misc {
     @ConfigOption(name = "Config Button", desc = "Add a button to the pause menu to configure NES")
     @ConfigEditorBoolean
     public boolean pauseButton = true;
+
+    @Expose
+    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.")
+    @ConfigEditorBoolean
+    public boolean highlightPowderGhast = true;
 }
