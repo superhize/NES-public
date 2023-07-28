@@ -14,8 +14,11 @@ class ShowFPS {
 
     @SubscribeEvent
     fun onRenderOverlay(event: GuiRenderEvent.GameOverlayRenderEvent) {
-        if (!isEnabled() && Minecraft.getMinecraft().currentScreen == null) return
-        config.position.renderStrings(display, posLabel = "FPS")
+        if (!isEnabled()) return
+        if (Minecraft.getMinecraft().theWorld == null) return
+        config.position.renderStrings(
+            display,
+            posLabel = "FPS")
     }
 
     private fun update() {
@@ -23,7 +26,8 @@ class ShowFPS {
     }
 
     private fun updateDisplay() = buildList {
-        add(config.format.replace("%fps%", "${Minecraft.getDebugFPS()}").replace("&", "§"))
+        val fps = Minecraft.getDebugFPS()
+        add(config.format.replace("%fps%", "$fps").replace("&", "§"))
     }
 
     @SubscribeEvent
