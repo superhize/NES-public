@@ -67,6 +67,7 @@ class ChestValue {
     fun onInventoryClose(event: InventoryCloseEvent) {
         chestItems.clear()
         slotList.clear()
+        Renderable.list.clear()
     }
 
 
