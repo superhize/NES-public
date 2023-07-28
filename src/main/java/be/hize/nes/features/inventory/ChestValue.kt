@@ -80,24 +80,11 @@ class ChestValue {
         }
     }
 
-    @SubscribeEvent
-    fun onRenderItemOverlayPost(event: GuiRenderItemEvent.RenderOverlayEvent.GuiRenderItemPost) {
-        if (!isEnabled()) return
-        InventoryUtils.inStorage()
-        if (inInventory) {
-            for (slot in InventoryUtils.getItemsInOpenChest()) {
-                if (slotList.contains(slot.slotIndex)) {
-                    slot drawIndex LorenzColor.WHITE
-                }
-            }
-        }
-    }
-
     private fun update() {
         display = drawDisplay()
     }
 
-    fun drawDisplay(): List<List<Any>> {
+    private fun drawDisplay(): List<List<Any>> {
         val newDisplay = mutableListOf<List<Any>>()
         var totalPrice = 0.0
         var rendered = 0
@@ -186,10 +173,9 @@ class ChestValue {
                                 val (oldIndex, oldInternalName, oldAmount, oldStack, oldBase, oldTotal, oldTips) = chestItems[stack.getInternalName()]
                                     ?: return
                                 oldIndex.add(i)
-                                oldTips.addAll(list.editCopy { this[0] = "${get(0)} §o(id:$i)" })
                                 chestItems[oldInternalName] = Item(oldIndex, oldInternalName, oldAmount + stack.stackSize, oldStack, oldBase, oldTotal + total, oldTips)
                             } else {
-                                chestItems[stack.getInternalName()] = Item(mutableListOf(i), stack.getInternalName(), stack.stackSize, stack, base, total, list.editCopy { this[0] = "${get(0)} §o(id:$i)" }.toMutableList())
+                                chestItems[stack.getInternalName()] = Item(mutableListOf(i), stack.getInternalName(), stack.stackSize, stack, base, total, list)
                             }
                         }
                     }
@@ -227,26 +213,6 @@ class ChestValue {
         SHORT("Formatted"),
         LONG("Unformatted")
         ;
-    }
-
-    private infix fun Slot.drawIndex(color: LorenzColor) {
-
-        val font = Minecraft.getMinecraft().fontRendererObj
-        GlStateManager.disableLighting()
-        GlStateManager.disableDepth()
-        GlStateManager.disableBlend()
-
-        GlStateManager.pushMatrix()
-        GlStateManager.translate((this.xDisplayPosition).toFloat(), (this.yDisplayPosition).toFloat(), 110 + Minecraft.getMinecraft().renderItem.zLevel)
-        GlStateManager.scale(0.9, 0.9, 0.9)
-        font.drawStringWithShadow("${color.getChatColor()}${this.slotIndex}", 0f, 0f, 16777215)
-        val reverseScale = 1 / 0.7
-        GlStateManager.scale(reverseScale, reverseScale, reverseScale)
-        GlStateManager.popMatrix()
-
-        GlStateManager.enableLighting()
-        GlStateManager.enableDepth()
-
     }
 
     private fun String.isValidStorage(): Boolean {
