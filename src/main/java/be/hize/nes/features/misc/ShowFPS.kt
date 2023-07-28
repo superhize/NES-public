@@ -1,6 +1,7 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.events.LorenzTickEvent
+import at.hannibal2.skyhanni.utils.LorenzUtils
 import at.hannibal2.skyhanni.utils.LorenzUtils.addAsSingletonList
 import be.hize.nes.NES
 import be.hize.nes.events.GuiRenderEvent
@@ -17,10 +18,11 @@ class ShowFPS {
     @SubscribeEvent
     fun onRenderOverlay(event: GuiRenderEvent.GameOverlayRenderEvent) {
         if (!isEnabled()) return
-        if (Minecraft.getMinecraft().theWorld == null) return
-        config.position.renderStringsAndItems(
-            display,
-            posLabel = "FPS")
+        if (display.isNotEmpty()){
+            config.position.renderStringsAndItems(
+                display,
+                posLabel = "FPS")
+        }
     }
 
     private fun update() {
@@ -28,8 +30,8 @@ class ShowFPS {
     }
 
     private fun updateDisplay() = buildList {
-        val fps = Minecraft.getDebugFPS()
-        addAsSingletonList(config.format.replace("%fps%", "$fps").replace("&", "§"))
+        val fps = Minecraft.getDebugFPS().toString()
+        addAsSingletonList(config.format.replace("%fps%", fps).replace("&", "§"))
     }
 
     @SubscribeEvent
@@ -38,5 +40,5 @@ class ShowFPS {
         update()
     }
 
-    private fun isEnabled() = config.enabled
+    private fun isEnabled() = config.enabled && LorenzUtils.inSkyBlock
 }
