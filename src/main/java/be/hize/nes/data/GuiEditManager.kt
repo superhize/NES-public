@@ -8,6 +8,7 @@ import be.hize.nes.config.core.config.Position
 import be.hize.nes.config.core.config.gui.GuiPositionEditor
 import be.hize.nes.events.GuiRenderEvent
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.client.gui.inventory.GuiEditSign
 import net.minecraft.client.gui.inventory.GuiInventory
@@ -35,7 +36,8 @@ class GuiEditManager {
             if (!screen.isRancherSign()) return
         }
         if (isInGui()) return
-        openGuiPositionEditor()
+        if (screen == null) openGuiPositionEditor() else
+            openGuiPositionEditor(screen)
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -63,8 +65,13 @@ class GuiEditManager {
         }
 
         @JvmStatic
+        fun openGuiPositionEditor(lastScreen: GuiScreen) {
+            NES.screenToOpen = GuiPositionEditor(latestPositions.values.toList(), 2, lastScreen)
+        }
+
+        @JvmStatic
         fun openGuiPositionEditor() {
-            NES.screenToOpen = GuiPositionEditor(latestPositions.values.toList(), 2)
+            NES.screenToOpen = GuiPositionEditor(latestPositions.values.toList(), 2, null)
         }
 
         @JvmStatic

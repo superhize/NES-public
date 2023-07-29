@@ -18,7 +18,7 @@ object Commands {
     private val openMainMenu: (Array<String>) -> Unit = {
         if (it.isNotEmpty()) {
             if (it[0].lowercase() == "gui") {
-                GuiEditManager.openGuiPositionEditor()
+                GuiEditManager.openGuiPositionEditor(Minecraft.getMinecraft().currentScreen)
             } else {
                 ConfigGuiManager.openConfigGui(it.joinToString(" "))
             }
