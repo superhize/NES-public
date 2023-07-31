@@ -6,7 +6,7 @@ plugins {
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    kotlin("jvm") version "1.8.20-RC"
+    kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.8.0"
 }
 
@@ -77,7 +77,9 @@ dependencies {
     // If you don't want to log in with your real minecraft account, remove this line
     modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
 
+    @Suppress("VulnerableLibrariesLocal")
     implementation("com.github.hannibal002:notenoughupdates:4957f0b:all")
+    @Suppress("VulnerableLibrariesLocal")
     devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all")
 
     shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
@@ -88,6 +90,7 @@ dependencies {
     modRuntimeOnly(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
 
     shadowImpl("moe.nea:libautoupdate:1.0.3")
+    shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 }
 kotlin {
     sourceSets.all {

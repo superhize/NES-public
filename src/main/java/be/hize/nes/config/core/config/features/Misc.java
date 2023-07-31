@@ -194,7 +194,7 @@ public class Misc {
     public boolean pauseButton = true;
 
     @Expose
-    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.")
+    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.\n§cNot really working!!!")
     @ConfigEditorBoolean
     public boolean highlightPowderGhast = true;
 }
