@@ -36,6 +36,7 @@ repositories {
         }
     }
     maven("https://repo.nea.moe/releases")
+    maven("https://repo.hize.be/releases")
 }
 
 val shadowImpl by configurations.creating {
@@ -78,16 +79,24 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
 
     @Suppress("VulnerableLibrariesLocal")
-    implementation("com.github.hannibal002:notenoughupdates:4957f0b:all")
+    implementation("com.github.hannibal002:notenoughupdates:4957f0b:all"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
     @Suppress("VulnerableLibrariesLocal")
-    devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all")
+    devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
+
+    shadowModImpl("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
+    devenvMod("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
 
     shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
     devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.1.5:test")
 
-
-    implementation(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
-    modRuntimeOnly(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
 
     shadowImpl("moe.nea:libautoupdate:1.0.3")
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")

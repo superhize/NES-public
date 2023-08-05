@@ -124,13 +124,14 @@ class ChestValue {
                     add(stack)
                     add(renderable)
 
+
                 })
                 rendered++
             }
 
-            val sortingType = SortType.values()[config.sortingType].longName
+            val sortingType = SortType.entries[config.sortingType].longName
             newDisplay.addAsSingletonList("§7Sorted By: §c$sortingType")
-            newDisplay.addSelector(" ", SortType.values(),
+            newDisplay.addSelector(" ", SortType.entries.toTypedArray(),
                 getName = { type -> type.shortName },
                 isCurrent = { it.ordinal == config.sortingType },
                 onChange = {
@@ -138,7 +139,7 @@ class ChestValue {
                     update()
                 })
             newDisplay.addAsSingletonList("§6Total value : §b${totalPrice.formatPrice()}")
-            newDisplay.addSelector(" ", FormatType.values(),
+            newDisplay.addSelector(" ", FormatType.entries.toTypedArray(),
                 getName = { type -> type.type },
                 isCurrent = { it.ordinal == config.formatType },
                 onChange = {

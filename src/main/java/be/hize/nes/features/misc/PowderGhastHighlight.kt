@@ -53,7 +53,7 @@ class PowderGhastHighlight {
             entityList.forEach {
                 if (it.isEntityAlive){
                     var text = "§cGhast "
-                    it.getAllNameTagsInRadiusWith("❤", 5.0).forEach { stand ->
+                    it.getAllNameTagsInRadiusWith("❤", 10.0).forEach { stand ->
                         text += "§8\\[§7Lv1§8] §cPowder Ghast§r (?<hp>.*)".toRegex().find(stand.name)?.groupValues?.get(1)
                             ?: ""
                     }
@@ -65,18 +65,17 @@ class PowderGhastHighlight {
                     )
                     RenderLivingEntityHelper.setEntityColor(it, LorenzColor.GREEN.toColor().withAlpha(80)) { true }
                     RenderLivingEntityHelper.setNoHurtTime(it) { true }
-                }
-            }
-            if (entityList.isNotEmpty()){
-                for (loc in Location.values()) {
-                    if (loc.loc == area) {
-                        event.drawWaypointFilled(loc.vec,
-                            Color.GREEN,
-                            seeThroughBlocks = true,
-                            beacon = true)
+                    for (loc in Location.entries) {
+                        if (loc.loc == area) {
+                            event.drawWaypointFilled(loc.vec,
+                                Color.GREEN,
+                                seeThroughBlocks = true,
+                                beacon = true)
+                        }
                     }
                 }
             }
+
         }
     }
     enum class Location(val loc: String, val vec: LorenzVec) {
