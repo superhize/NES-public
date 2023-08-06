@@ -197,4 +197,9 @@ public class Misc {
     @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.\n§cNot really working!!!k")
     @ConfigEditorBoolean
     public boolean highlightPowderGhast = true;
+
+    @Expose
+    @ConfigOption(name = "Hide boss bar", desc = "Completely hide the boss bar")
+    @ConfigEditorBoolean
+    public boolean hideBossBar = false;
 }

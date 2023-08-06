@@ -17,6 +17,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import net.minecraftforge.client.GuiIngameForge
+import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -34,7 +36,8 @@ import org.apache.logging.log4j.Logger
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
     version = "0.1.Beta.3",
-    name = "NotEnoughSkyhanni")
+    name = "NotEnoughSkyhanni"
+)
 internal class NES {
 
     @Mod.EventHandler
@@ -81,6 +84,13 @@ internal class NES {
             }
         }
     }
+
+    @SubscribeEvent
+    fun onRenderRemoveBars(event: RenderGameOverlayEvent.Pre) {
+        GuiIngameForge.renderBossHealth = !feature.misc.hideBossBar
+    }
+
+
 
     companion object {
         const val MODID = "nes"
