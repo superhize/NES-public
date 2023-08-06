@@ -35,7 +35,7 @@ import org.apache.logging.log4j.Logger
     clientSideOnly = true,
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
-    version = "0.1.Beta.3",
+    version = "0.1.Beta.4",
     name = "NotEnoughSkyhanni"
 )
 internal class NES {
