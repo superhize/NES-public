@@ -35,49 +35,45 @@ class PowderGhastHighlight {
     }
 
     @SubscribeEvent
-    fun onTick(event: LorenzTickEvent){
+    fun onTick(event: LorenzTickEvent) {
         if (LorenzUtils.inSkyBlock && NES.feature.misc.highlightPowderGhast && LorenzUtils.skyBlockIsland == IslandType.DWARVEN_MINES) {
-            if (event.isMod(20)){
+            if (event.isMod(20)) {
                 EntityUtils.getEntities<EntityGhast>().forEach {
                     if (!entityList.contains(it)) entityList.add(it)
                 }
             }
-            if (event.isMod(10)){
+            if (event.isMod(10)) {
                 entityList.editCopy { removeIf { !it.isEntityAlive } }
             }
         }
     }
+
     @SubscribeEvent
     fun onRender(event: RenderWorldLastEvent) {
         if (LorenzUtils.inSkyBlock && NES.feature.misc.highlightPowderGhast && LorenzUtils.skyBlockIsland == IslandType.DWARVEN_MINES) {
-            entityList.forEach {
-                if (it.isEntityAlive){
-                    var text = "§cGhast "
-                    it.getAllNameTagsInRadiusWith("❤", 10.0).forEach { stand ->
-                        text += "§8\\[§7Lv1§8] §cPowder Ghast§r (?<hp>.*)".toRegex().find(stand.name)?.groupValues?.get(1)
-                            ?: ""
-                    }
-                    event.drawDynamicText(
-                        event.exactLocation(it),
-                        text,
-                        1.5,
-                        ignoreBlocks = true
-                    )
-                    RenderLivingEntityHelper.setEntityColor(it, LorenzColor.GREEN.toColor().withAlpha(80)) { true }
-                    RenderLivingEntityHelper.setNoHurtTime(it) { true }
-                    for (loc in Location.entries) {
-                        if (loc.loc == area) {
-                            event.drawWaypointFilled(loc.vec,
-                                Color.GREEN,
-                                seeThroughBlocks = true,
-                                beacon = true)
-                        }
+            EntityUtils.getAllEntities().filterIsInstance<EntityGhast>().forEach {
+                event.drawDynamicText(
+                    event.exactLocation(it),
+                    "§a${it.health} hits",
+                    1.5,
+                    ignoreBlocks = true
+                )
+                RenderLivingEntityHelper.setEntityColor(it, LorenzColor.GREEN.toColor().withAlpha(80)) { true }
+                RenderLivingEntityHelper.setNoHurtTime(it) { true }
+                for (loc in Location.entries) {
+                    if (loc.loc == area) {
+                        event.drawWaypointFilled(
+                            loc.vec,
+                            Color.GREEN,
+                            seeThroughBlocks = true,
+                            beacon = true
+                        )
                     }
                 }
             }
-
         }
     }
+
     enum class Location(val loc: String, val vec: LorenzVec) {
         DIVAN_GATEAWAY("Divan's Gateway", LorenzVec(12, 162, 113)),
         RAMPART_QUARRY("Rampart's Quarry", LorenzVec(-99, 176, -16)),
