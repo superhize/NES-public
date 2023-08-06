@@ -53,6 +53,7 @@ internal class NES {
         loadModule(ChestValue())
         loadModule(UpdateManager)
         loadModule(PowderGhastHighlight())
+        loadModule(RawChatMessage)
 
         init()
     }
