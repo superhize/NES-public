@@ -87,7 +87,7 @@ dependencies {
         exclude(group = "null", module = "unspecified")// idk
     }
 
-    shadowModImpl("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
+    implementation("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
         exclude(group = "null", module = "unspecified")// idk
     }
     devenvMod("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
@@ -206,6 +206,7 @@ tasks.shadowJar {
 
     relocate("io.github.moulberry.moulconfig")
     relocate("com.jagrosh.discordipc")
+    relocate("moe.nea.libautoupdate")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)

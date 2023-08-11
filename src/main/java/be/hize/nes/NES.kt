@@ -6,7 +6,6 @@ import be.hize.nes.config.commands.Commands.init
 import be.hize.nes.data.GuiEditManager
 import be.hize.nes.data.ProfileStorageData
 import be.hize.nes.data.RenderGuiData
-import be.hize.nes.features.inventory.ChestValue
 import be.hize.nes.features.misc.*
 import be.hize.nes.features.misc.coordinate.ShowCoordinate
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
@@ -53,7 +52,6 @@ internal class NES {
         loadModule(Trapper())
         loadModule(Ghost)
         loadModule(ButtonOnPause())
-        loadModule(ChestValue())
         loadModule(UpdateManager)
         loadModule(PowderGhastHighlight())
         loadModule(RawChatMessage)
