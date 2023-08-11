@@ -87,10 +87,10 @@ dependencies {
         exclude(group = "null", module = "unspecified")// idk
     }
 
-    implementation("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
+    implementation("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
         exclude(group = "null", module = "unspecified")// idk
     }
-    devenvMod("at.hannibal2:SkyHanni:0.20.Beta.3:all-dev"){
+    devenvMod("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
         exclude(group = "null", module = "unspecified")// idk
     }
 
