@@ -89,7 +89,6 @@ internal class NES {
     }
 
 
-
     companion object {
         const val MODID = "nes"
 

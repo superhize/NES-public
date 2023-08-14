@@ -4,7 +4,6 @@ import be.hize.nes.config.core.config.Position;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.*;
 import io.github.moulberry.moulconfig.observer.Property;
-import org.lwjgl.input.Keyboard;
 
 public class Misc {
 
@@ -194,7 +193,7 @@ public class Misc {
     public boolean pauseButton = true;
 
     @Expose
-    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.\n§cNot really working!!!k")
+    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.")
     @ConfigEditorBoolean
     public boolean highlightPowderGhast = true;
 

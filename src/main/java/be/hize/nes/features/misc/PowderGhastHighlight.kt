@@ -7,7 +7,6 @@ import at.hannibal2.skyhanni.events.withAlpha
 import at.hannibal2.skyhanni.mixins.hooks.RenderLivingEntityHelper
 import at.hannibal2.skyhanni.test.GriffinUtils.drawWaypointFilled
 import at.hannibal2.skyhanni.utils.EntityUtils
-import at.hannibal2.skyhanni.utils.EntityUtils.getAllNameTagsInRadiusWith
 import at.hannibal2.skyhanni.utils.LorenzColor
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import at.hannibal2.skyhanni.utils.LorenzUtils.editCopy
@@ -54,12 +53,12 @@ class PowderGhastHighlight {
             EntityUtils.getAllEntities().filterIsInstance<EntityGhast>().forEach {
                 event.drawDynamicText(
                     event.exactLocation(it),
-                    "§a${it.health} hits",
-                    1.5,
+                    "§c${it.health} hits",
+                    2.0,
                     ignoreBlocks = true
                 )
-                RenderLivingEntityHelper.setEntityColor(it, LorenzColor.GREEN.toColor().withAlpha(80)) { true }
-                RenderLivingEntityHelper.setNoHurtTime(it) { true }
+                RenderLivingEntityHelper.setEntityColor(it, LorenzColor.GREEN.toColor().withAlpha(80)) { isEnabled() }
+                RenderLivingEntityHelper.setNoHurtTime(it) { isEnabled() }
                 for (loc in Location.entries) {
                     if (loc.loc == area) {
                         event.drawWaypointFilled(
@@ -80,4 +79,6 @@ class PowderGhastHighlight {
         CLIFFSIDE_VEINES("Cliffside Veins", LorenzVec(34, 13, 30)),
         FORGE_BASSIN("Forge Basin", LorenzVec(9, 189, -6))
     }
+
+    fun isEnabled() = LorenzUtils.inSkyBlock && NES.feature.misc.highlightPowderGhast
 }

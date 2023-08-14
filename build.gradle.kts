@@ -76,7 +76,7 @@ dependencies {
     }
 
     // If you don't want to log in with your real minecraft account, remove this line
-    modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
+   // modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
 
     @Suppress("VulnerableLibrariesLocal")
     implementation("com.github.hannibal002:notenoughupdates:4957f0b:all"){

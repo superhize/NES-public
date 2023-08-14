@@ -3,7 +3,6 @@ package be.hize.nes.config;
 import be.hize.nes.NES;
 import be.hize.nes.config.core.config.features.About;
 import be.hize.nes.config.core.config.features.GUI;
-import be.hize.nes.config.core.config.features.Inventory;
 import be.hize.nes.config.core.config.features.Misc;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.Config;
@@ -54,9 +53,9 @@ public class Features extends Config {
     @Category(name = "Misc", desc = "Misc Features")
     public Misc misc = new Misc();
 
-    @Expose
+    /*@Expose
     @Category(name = "Inventory", desc = "Inventory features")
-    public Inventory inventory = new Inventory();
+    public Inventory inventory = new Inventory();*/
 
     @Expose
     public Storage storage = new Storage();
