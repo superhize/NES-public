@@ -1,10 +1,9 @@
 package be.hize.nes.config;
 
+import be.hize.nes.features.misc.waypoint.Waypoint;
 import com.google.gson.annotations.Expose;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Storage {
 
@@ -16,5 +15,8 @@ public class Storage {
     }
 
     public static class ProfileSpecific {
+
+        @Expose
+        public List<Waypoint.Waypoints> waypoints = new LinkedList<>();
     }
 }

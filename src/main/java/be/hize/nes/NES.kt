@@ -10,6 +10,7 @@ import be.hize.nes.features.misc.*
 import be.hize.nes.features.misc.coordinate.ShowCoordinate
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
 import be.hize.nes.features.misc.update.UpdateManager
+import be.hize.nes.features.misc.waypoint.Waypoint
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -42,7 +43,7 @@ internal class NES {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         loadModule(this)
-        loadModule(ProfileStorageData())
+        loadModule(ProfileStorageData)
         loadModule(GuiEditManager())
         loadModule(RenderGuiData())
         loadModule(ShowFPS())
@@ -55,6 +56,7 @@ internal class NES {
         loadModule(UpdateManager)
         loadModule(PowderGhastHighlight())
         loadModule(RawChatMessage)
+        loadModule(Waypoint)
 
         init()
     }

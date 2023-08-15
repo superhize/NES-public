@@ -1,10 +1,10 @@
 package be.hize.nes.config.commands
 
-import at.hannibal2.skyhanni.utils.LorenzUtils.chat
 import be.hize.nes.NES
 import be.hize.nes.config.ConfigGuiManager
 import be.hize.nes.data.GuiEditManager
 import be.hize.nes.features.misc.RawChatMessage
+import be.hize.nes.features.misc.waypoint.Waypoint
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
 import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
@@ -80,6 +80,10 @@ object Commands {
             "nesrpcstart",
             "Manually starts the Discord Rich Presence feature"
         ) { DiscordRPCManager.startCommand() }
+        registerCommand("neswaypoint",
+            "Waypoint commands"){
+            Waypoint.Command.process(it)
+        }
     }
 
     private fun usersBugFix() {}
