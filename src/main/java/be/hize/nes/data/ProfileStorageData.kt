@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
 
-class ProfileStorageData {
+object ProfileStorageData {
     var playerSpecific: Storage.PlayerSpecific? = null
     var profileSpecific: Storage.ProfileSpecific? = null
     var loaded = false
