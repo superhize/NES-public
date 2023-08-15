@@ -82,6 +82,7 @@ object Waypoint {
     fun onWorldChange(event: LorenzWorldChangeEvent) {
         if (!isEnabled()) return
         waypoints.clear()
+
     }
 
     data class Waypoints(
@@ -116,12 +117,15 @@ object Waypoint {
         )
 
         private fun help() {
-            chat("§e/neswaypoint help - show this")
-            chat("§e/neswaypoint add <x> <y> <z> <color> <tag> - Add a waypoint")
-            chat("§e/neswaypoint remove <tag> - Remove a waypoint")
+            chat(" === Waypoints === ")
+            chat("§6/neswaypoint help - show this")
+            chat("§6/neswaypoint add <x> <y> <z> <color> <tag> - Add a waypoint")
+            chat("§6/neswaypoint add <tag> - Add a waypoint at your position")
+            chat("§6/neswaypoint add <tag> <color> - Add a waypoint at your position with given color")
+            chat("§6/neswaypoint remove <tag> - Remove a waypoint")
             chat("§6/neswaypoint clear - clear all waypoints")
             chat("§6/neswaypoint list - list all waypoints")
-
+            chat(" === === === === ")
         }
 
         fun process(args: Array<String>) {
@@ -142,7 +146,12 @@ object Waypoint {
                         val y = Minecraft.getMinecraft().thePlayer.posY
                         val z = Minecraft.getMinecraft().thePlayer.posZ
                         val tag = param[0]
-                        val color = colorMap.getOrDefault(param[1], LorenzColor.GREEN)
+                        val colorName = param[1]
+                        if (!colorMap.contains(colorName)){
+                            chat("§e[NES] §cInvalid color! Valid colors are: §b ${colorMap.keys.joinToString(" - ")}")
+                            return
+                        }
+                        val color = colorMap.getOrDefault(colorName, LorenzColor.GREEN)
                         addWaypoint(x, y, z, tag = tag, color = color)
                     }
                     if (param.size == 4) {
@@ -157,7 +166,12 @@ object Waypoint {
                         val y = param[1].toDouble()
                         val z = param[2].toDouble()
                         val tag = param[3]
-                        val color = colorMap.getOrDefault(param[4], LorenzColor.GREEN)
+                        val colorName = param[1]
+                        if (!colorMap.contains(colorName)){
+                            chat("§e[NES] §cInvalid color! Valid colors are: §b${colorMap.keys.joinToString(" - ")}")
+                            return
+                        }
+                        val color = colorMap.getOrDefault(colorName, LorenzColor.GREEN)
                         addWaypoint(x, y, z, tag = tag, color = color)
                     }
                 }
