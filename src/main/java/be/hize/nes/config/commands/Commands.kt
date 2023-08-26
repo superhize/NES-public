@@ -1,9 +1,10 @@
 package be.hize.nes.config.commands
 
-import at.hannibal2.skyhanni.SkyHanniMod
 import be.hize.nes.NES
 import be.hize.nes.config.ConfigGuiManager
 import be.hize.nes.data.GuiEditManager
+import be.hize.nes.features.misc.RawChatMessage
+import be.hize.nes.features.misc.waypoint.Waypoint
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
 import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
@@ -75,16 +76,30 @@ object Commands {
     }
 
     private fun usersNormal() {
-        registerCommand("nesrpcstart", "Manually starts the Discord Rich Presence feature") { DiscordRPCManager.startCommand() }
+        registerCommand(
+            "nesrpcstart",
+            "Manually starts the Discord Rich Presence feature"
+        ) { DiscordRPCManager.startCommand() }
+        registerCommand("neswaypoint",
+            "Waypoint commands"){
+            Waypoint.Command.process(it)
+        }
     }
+
     private fun usersBugFix() {}
-    private fun developersCodingHelp() {}
+    private fun developersCodingHelp() {
+        registerCommand("neschathistory", "Show chat history") {
+            RawChatMessage.openGui()
+        }
+    }
+
     private fun developersDebugFeatures() {
         registerCommand(
             "nesconfigsave",
             "Manually saving the config"
         ) { NES.configManager.saveConfig("manual-command") }
     }
+
     private fun internalCommands() {}
 
     private fun commandHelp(args: Array<String>) {

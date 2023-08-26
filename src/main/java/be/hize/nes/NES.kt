@@ -6,17 +6,19 @@ import be.hize.nes.config.commands.Commands.init
 import be.hize.nes.data.GuiEditManager
 import be.hize.nes.data.ProfileStorageData
 import be.hize.nes.data.RenderGuiData
-import be.hize.nes.features.inventory.ChestValue
 import be.hize.nes.features.misc.*
 import be.hize.nes.features.misc.coordinate.ShowCoordinate
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
 import be.hize.nes.features.misc.update.UpdateManager
+import be.hize.nes.features.misc.waypoint.Waypoint
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import net.minecraftforge.client.GuiIngameForge
+import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -33,14 +35,15 @@ import org.apache.logging.log4j.Logger
     clientSideOnly = true,
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
-    version = "0.1.Beta.2",
-    name = "NotEnoughSkyhanni")
+    version = "0.1.Beta.5",
+    name = "NotEnoughSkyhanni"
+)
 internal class NES {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         loadModule(this)
-        loadModule(ProfileStorageData())
+        loadModule(ProfileStorageData)
         loadModule(GuiEditManager())
         loadModule(RenderGuiData())
         loadModule(ShowFPS())
@@ -48,10 +51,12 @@ internal class NES {
         loadModule(Facing())
         loadModule(DiscordRPCManager)
         loadModule(Trapper())
-        loadModule(Ghost())
+        loadModule(Ghost)
         loadModule(ButtonOnPause())
-        loadModule(ChestValue())
         loadModule(UpdateManager)
+        loadModule(PowderGhastHighlight())
+        loadModule(RawChatMessage)
+        loadModule(Waypoint)
 
         init()
     }
@@ -79,6 +84,12 @@ internal class NES {
             }
         }
     }
+
+    @SubscribeEvent
+    fun onRenderRemoveBars(event: RenderGameOverlayEvent.Pre) {
+        GuiIngameForge.renderBossHealth = !feature.misc.hideBossBar
+    }
+
 
     companion object {
         const val MODID = "nes"

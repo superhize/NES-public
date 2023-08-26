@@ -1,6 +1,7 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.events.LorenzTickEvent
+import at.hannibal2.skyhanni.utils.LorenzUtils
 import be.hize.nes.NES
 import be.hize.nes.events.GuiRenderEvent
 import be.hize.nes.features.misc.coordinate.Facing
@@ -38,6 +39,6 @@ class Facing {
         update()
     }
 
-    private fun isEnabled() = config.enabled
+    private fun isEnabled() = config.enabled && LorenzUtils.inSkyBlock
 
 }

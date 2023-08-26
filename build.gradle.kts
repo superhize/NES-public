@@ -6,7 +6,7 @@ plugins {
     id("gg.essential.loom") version "0.10.0.+"
     id("dev.architectury.architectury-pack200") version "0.1.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    kotlin("jvm") version "1.8.20-RC"
+    kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.8.0"
 }
 
@@ -14,7 +14,7 @@ plugins {
 
 val modid = "nes"
 group = "be.hize.nes"
-version = "0.1.Beta.2"
+version = "0.1.Beta.5"
 val mcVersion = "1.8.9"
 val mixinGroup = "$group.mixin"
 
@@ -36,6 +36,7 @@ repositories {
         }
     }
     maven("https://repo.nea.moe/releases")
+    maven("https://repo.hize.be/releases")
 }
 
 val shadowImpl by configurations.creating {
@@ -75,18 +76,30 @@ dependencies {
     }
 
     // If you don't want to log in with your real minecraft account, remove this line
-    modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
+   // modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
 
-    implementation("com.github.hannibal002:notenoughupdates:4957f0b:all")
-    devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all")
+    @Suppress("VulnerableLibrariesLocal")
+    implementation("com.github.hannibal002:notenoughupdates:4957f0b:all"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
+    @Suppress("VulnerableLibrariesLocal")
+    devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
+
+    implementation("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
+    devenvMod("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
+        exclude(group = "null", module = "unspecified")// idk
+    }
 
     shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
     devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.1.5:test")
 
-    implementation(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
-    modRuntimeOnly(fileTree(mapOf("dir" to "devenv_mod", "include" to listOf("*.jar"))))
 
     shadowImpl("moe.nea:libautoupdate:1.0.3")
+    shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 }
 kotlin {
     sourceSets.all {
@@ -193,6 +206,7 @@ tasks.shadowJar {
 
     relocate("io.github.moulberry.moulconfig")
     relocate("com.jagrosh.discordipc")
+    relocate("moe.nea.libautoupdate")
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
@@ -206,4 +220,3 @@ sourceSets.main {
     java.srcDir(file("$projectDir/src/main/kotlin"))
     output.setResourcesDir(java.destinationDirectory)
 }
-

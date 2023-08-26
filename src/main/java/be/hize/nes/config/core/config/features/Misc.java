@@ -77,7 +77,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Recolor mist", desc = "change color of blocs in the mist")
         @ConfigEditorBoolean
-        public Property<Boolean> recolorMist = Property.of(true);
+        public Property<Boolean> recolorMist = Property.of(false);
 
         @Expose
         @ConfigOption(name = "Mist color", desc = "Choose mist color")
@@ -95,21 +95,22 @@ public class Misc {
                 "Blue",
                 "Green",
                 "Red",
-                "Black"
+                "Black",
+                "Grey But Black",
+                "Black But Grey",
+                "Yes"
         })
         public Property<Integer> color = Property.of(7);
 
         @Expose
         @ConfigOption(name = "Recolor creeper", desc = "change color of blocs in the mist")
         @ConfigEditorBoolean
-        public Property<Boolean> recolorCreeper = Property.of(true);
-
+        public Property<Boolean> recolorCreeper = Property.of(false);
 
         @Expose
         @ConfigOption(name = "Creeper color", desc = "Choose creeper color")
         @ConfigEditorColour
         public Property<String> creeperColor = Property.of("0:245:85:255:85");
-
     }
 
     @Expose
@@ -121,7 +122,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show FPS HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         @ConfigOption(name = "Format", desc = "Text format")
@@ -141,7 +142,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show Coordinate HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         public Position position = new Position(0, 10, false, true);
@@ -156,7 +157,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Show Coordinate HUD")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
         public Position position = new Position(0, 20, false, true);
@@ -171,7 +172,7 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Render item rarity overlay")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
     }
 
     @Expose
@@ -183,11 +184,21 @@ public class Misc {
         @Expose
         @ConfigOption(name = "Enabled", desc = "Enable Trevor the trapper helper")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
     }
 
     @Expose
     @ConfigOption(name = "Config Button", desc = "Add a button to the pause menu to configure NES")
     @ConfigEditorBoolean
     public boolean pauseButton = true;
+
+    @Expose
+    @ConfigOption(name = "Highlight powder ghast", desc = "Highlight powder ghast in dwarven mines.")
+    @ConfigEditorBoolean
+    public boolean highlightPowderGhast = true;
+
+    @Expose
+    @ConfigOption(name = "Hide boss bar", desc = "Completely hide the boss bar")
+    @ConfigEditorBoolean
+    public boolean hideBossBar = false;
 }

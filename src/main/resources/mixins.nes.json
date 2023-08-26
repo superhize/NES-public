@@ -4,11 +4,11 @@
   "minVersion": "0.7",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "MixinBlockRendererDispatcher",
     "MixinEntityRenderer",
     "MixinLayerCreeperCharge",
-    "MixinRenderItem",
-    "MixinBlockRendererDispatcher"
+    "MixinRenderItem"
   ],
-  "client": [
-  ]
+  "verbose": true,
+  "client": []
   }

@@ -1,7 +1,6 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.data.IslandType
-import at.hannibal2.skyhanni.utils.EntityUtils
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import be.hize.nes.NES
 import be.hize.nes.utils.NESEntityUtils
@@ -48,6 +47,7 @@ class Trapper {
             color = null
         }
     }
+
     @SubscribeEvent
     fun onRenderWorld(event: RenderWorldLastEvent) {
         if (!isEnabled()) return
