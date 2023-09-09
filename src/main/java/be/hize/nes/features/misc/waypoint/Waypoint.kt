@@ -1,6 +1,7 @@
 package be.hize.nes.features.misc.waypoint
 
 import at.hannibal2.skyhanni.events.LorenzChatEvent
+import at.hannibal2.skyhanni.events.LorenzTickEvent
 import at.hannibal2.skyhanni.events.LorenzWorldChangeEvent
 import at.hannibal2.skyhanni.test.GriffinUtils.drawWaypointFilled
 import at.hannibal2.skyhanni.utils.LocationUtils.distanceToPlayer
@@ -22,6 +23,7 @@ import net.minecraft.util.ChatComponentText
 import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import kotlin.concurrent.fixedRateTimer
 import kotlin.math.roundToInt
 
 object Waypoint {
@@ -47,7 +49,14 @@ object Waypoint {
 
                 split.first().toInt()
             } else end.toInt()
-            addWaypoint(x.toDouble(), y.toDouble(), z.toDouble(), LorenzColor.GREEN, description)
+            addWaypoint(
+                x.toDouble(),
+                y.toDouble(),
+                z.toDouble(),
+                LorenzColor.GREEN,
+                "§a${description.replace(" ", "")}",
+                "patcher"
+            )
             logger.log("got patcher coords and username")
         }
     }
@@ -69,26 +78,25 @@ object Waypoint {
                 tag.replace("&", "§"),
                 1.5,
             )
-            val distance = waypoint.location.distanceToPlayer().roundToInt()
+            /*val distance = waypoint.location.distanceToPlayer().roundToInt()
             event.drawDynamicText(
                 waypoint.location.add(0, 1, 0),
                 "$distance blocs".replace("&", "§"),
                 1.5,
-            )
+            )*/
         }
     }
 
     @SubscribeEvent
     fun onWorldChange(event: LorenzWorldChangeEvent) {
-        if (!isEnabled()) return
         waypoints.clear()
-
     }
 
     data class Waypoints(
         val location: LorenzVec,
         val color: LorenzColor,
-        val tag: String
+        val tag: String,
+        val group: String
     )
 
     private fun isEnabled() = LorenzUtils.inSkyBlock
@@ -147,7 +155,7 @@ object Waypoint {
                         val z = Minecraft.getMinecraft().thePlayer.posZ
                         val tag = param[0]
                         val colorName = param[1]
-                        if (!colorMap.contains(colorName)){
+                        if (!colorMap.contains(colorName)) {
                             chat("§e[NES] §cInvalid color! Valid colors are: §b ${colorMap.keys.joinToString(" - ")}")
                             return
                         }
@@ -166,13 +174,9 @@ object Waypoint {
                         val y = param[1].toDouble()
                         val z = param[2].toDouble()
                         val tag = param[3]
-                        val colorName = param[1]
-                        if (!colorMap.contains(colorName)){
-                            chat("§e[NES] §cInvalid color! Valid colors are: §b${colorMap.keys.joinToString(" - ")}")
-                            return
-                        }
-                        val color = colorMap.getOrDefault(colorName, LorenzColor.GREEN)
-                        addWaypoint(x, y, z, tag = tag, color = color)
+                        val group = param[4]
+                        val color = LorenzColor.GREEN
+                        addWaypoint(x, y, z, tag = tag, color = color, group = group)
                     }
                 }
 
@@ -199,6 +203,21 @@ object Waypoint {
                     }
                 }
 
+                "share" -> {
+                    if (param.size == 1) {
+                        val player = Minecraft.getMinecraft().thePlayer
+                        val group = param[0]
+                        val message = mutableListOf<String>()
+                        for ((t, w) in waypoints) {
+                            if (w.group == group) {
+                                val l = w.location
+                                message.add("${t.removeColor()}: ${l.x.toInt()}, ${l.y.toInt()}, ${l.z.toInt()}")
+                            }
+                        }
+                        player.sendChatMessage(message.joinToString(" | "))
+                    }
+                }
+
                 else -> {
                     help()
                 }
@@ -211,9 +230,10 @@ object Waypoint {
             y: Double,
             z: Double,
             color: LorenzColor = LorenzColor.GREEN,
-            tag: String
+            tag: String,
+            group: String = "None"
         ) {
-            waypoints[tag] = Waypoints(LorenzVec(x, y, z), color, tag)
+            waypoints[tag] = Waypoints(LorenzVec(x, y, z), color, tag, group)
             chat("§e[NES] §aAdded waypoint!")
         }
 

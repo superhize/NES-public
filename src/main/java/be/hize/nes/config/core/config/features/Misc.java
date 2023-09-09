@@ -5,6 +5,10 @@ import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.*;
 import io.github.moulberry.moulconfig.observer.Property;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Misc {
 
     @Expose
@@ -113,6 +117,37 @@ public class Misc {
         public Property<String> creeperColor = Property.of("0:245:85:255:85");
     }
 
+
+    @Expose
+    @ConfigOption(name = "", desc = "")
+    @Accordion
+    public MobHighlighterConfig mobHighlighterConfig = new MobHighlighterConfig();
+
+    public static class MobHighlighterConfig {
+
+
+        @Expose
+        @ConfigOption(name = "", desc = "")
+        @ConfigEditorBoolean
+        public boolean enabled = true;
+        @Expose
+        @ConfigOption(
+                name = "Mob",
+                desc = "Choose which mob to highlight."
+        )
+        @ConfigEditorDraggableList(
+                exampleText = {
+                        "§bIron Golem",
+                        "§bZombie",
+                        "§bSkeleton",
+                        "§bEnderman",
+                        "§bEndermite"
+                }
+        )
+        public Property<List<Integer>> mobToHighlight = Property.of(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4)));
+
+    }
+
     @Expose
     @ConfigOption(name = "Show FPS", desc = "")
     @Accordion
@@ -201,4 +236,9 @@ public class Misc {
     @ConfigOption(name = "Hide boss bar", desc = "Completely hide the boss bar")
     @ConfigEditorBoolean
     public boolean hideBossBar = false;
+
+    @Expose
+    @ConfigOption(name = "Highlight Powder Chest", desc = "Highlight powder chest in crystal hollows while powder grinding.")
+    @ConfigEditorBoolean
+    public boolean highlightPowderChest = true;
 }
