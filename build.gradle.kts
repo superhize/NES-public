@@ -14,7 +14,7 @@ plugins {
 
 val modid = "nes"
 group = "be.hize.nes"
-version = "0.1.Beta.5"
+version = "0.1.Beta.6"
 val mcVersion = "1.8.9"
 val mixinGroup = "$group.mixin"
 
