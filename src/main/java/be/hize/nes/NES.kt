@@ -57,8 +57,6 @@ internal class NES {
         loadModule(PowderGhastHighlight())
         loadModule(RawChatMessage)
         loadModule(Waypoint)
-        loadModule(PowderChest())
-        loadModule(MobHighlighter())
 
         init()
     }
