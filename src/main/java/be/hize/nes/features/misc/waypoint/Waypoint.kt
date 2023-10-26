@@ -1,6 +1,7 @@
 package be.hize.nes.features.misc.waypoint
 
 import at.hannibal2.skyhanni.events.LorenzChatEvent
+import at.hannibal2.skyhanni.events.LorenzRenderWorldEvent
 import at.hannibal2.skyhanni.events.LorenzTickEvent
 import at.hannibal2.skyhanni.events.LorenzWorldChangeEvent
 import at.hannibal2.skyhanni.test.GriffinUtils.drawWaypointFilled
@@ -62,7 +63,7 @@ object Waypoint {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    fun onWorldRender(event: RenderWorldLastEvent) {
+    fun onWorldRender(event: LorenzRenderWorldEvent) {
         if (!isEnabled()) return
         if (waypoints.isEmpty()) return
         for ((tag, waypoint) in waypoints) {

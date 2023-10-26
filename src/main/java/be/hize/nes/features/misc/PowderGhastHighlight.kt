@@ -2,6 +2,7 @@ package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.data.IslandType
 import at.hannibal2.skyhanni.events.LorenzChatEvent
+import at.hannibal2.skyhanni.events.LorenzRenderWorldEvent
 import at.hannibal2.skyhanni.events.LorenzTickEvent
 import at.hannibal2.skyhanni.events.withAlpha
 import at.hannibal2.skyhanni.mixins.hooks.RenderLivingEntityHelper
@@ -48,7 +49,7 @@ class PowderGhastHighlight {
     }
 
     @SubscribeEvent
-    fun onRender(event: RenderWorldLastEvent) {
+    fun onRender(event: LorenzRenderWorldEvent) {
         if (LorenzUtils.inSkyBlock && NES.feature.misc.highlightPowderGhast && LorenzUtils.skyBlockIsland == IslandType.DWARVEN_MINES) {
             EntityUtils.getAllEntities().filterIsInstance<EntityGhast>().forEach {
                 event.drawDynamicText(

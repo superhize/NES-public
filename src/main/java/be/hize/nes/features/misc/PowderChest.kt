@@ -1,6 +1,7 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.data.IslandType
+import at.hannibal2.skyhanni.events.LorenzRenderWorldEvent
 import at.hannibal2.skyhanni.test.GriffinUtils.drawWaypointFilled
 import at.hannibal2.skyhanni.utils.LocationUtils
 import at.hannibal2.skyhanni.utils.LocationUtils.distanceToPlayer
@@ -20,7 +21,7 @@ class PowderChest {
     private val enabled get() = NES.feature.misc.highlightPowderChest
 
     @SubscribeEvent
-    fun onRender(event: RenderWorldLastEvent) {
+    fun onRender(event: LorenzRenderWorldEvent) {
         if (!isEnabled()) return
         getTilesNearby<TileEntityChest>(LocationUtils.playerLocation(), 15.0).forEach {
             event.drawWaypointFilled(it.pos.toLorenzVec(), Color.GREEN, seeThroughBlocks = true)

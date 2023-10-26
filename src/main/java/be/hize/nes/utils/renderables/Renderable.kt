@@ -23,9 +23,10 @@ import kotlin.math.max
 interface Renderable {
     val width: Int
     val height: Int
-    fun isHovered(posX: Int, posY: Int) =
-        Utils.getMouseX() in (posX..posX + width)
-            && Utils.getMouseY() in (posY..posY + height) // TODO: adjust for variable height?
+    fun isHovered(posX: Int, posY: Int) = currentRenderPassMousePosition?.let { mp ->
+        mp.first in (posX..posX + width)
+            && mp.second in (posY..posY + height) // TODO: adjust for variable height?
+    } ?: false
 
     /**
      * N.B.: the offset is absolute, not relative to the position and should not be used for rendering
@@ -36,6 +37,19 @@ interface Renderable {
     companion object {
         val logger = NESLogger("debug/renderable")
         val list = mutableMapOf<Pair<Int, Int>, List<Int>>()
+
+        var currentRenderPassMousePosition: Pair<Int, Int>? = null
+            private set
+
+        fun <T> withMousePosition(posX: Int, posY: Int, block: () -> T): T {
+            val last = currentRenderPassMousePosition
+            try {
+                currentRenderPassMousePosition = Pair(posX, posY)
+                return block()
+            } finally {
+                currentRenderPassMousePosition = last
+            }
+        }
 
         fun fromAny(any: Any?, itemScale: Double = 1.0): Renderable? = when (any) {
             null -> placeholder(12)

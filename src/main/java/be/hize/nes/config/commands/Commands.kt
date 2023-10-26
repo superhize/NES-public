@@ -143,10 +143,9 @@ object Commands {
         commands.add(CommandInfo(name, description, currentCategory))
     }
 
-    private fun createCommand(function: (Array<String>) -> Unit) =
-        object : SimpleCommand.ProcessCommandRunnable() {
-            override fun processCommand(sender: ICommandSender?, args: Array<out String>) {
-                function(args.asList().toTypedArray())
-            }
+    private fun createCommand(function: (Array<String>) -> Unit) = object : SimpleCommand.ProcessCommandRunnable() {
+        override fun processCommand(sender: ICommandSender?, args: Array<String>?) {
+            if (args != null) function(args.asList().toTypedArray())
         }
+    }
 }

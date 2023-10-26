@@ -119,7 +119,7 @@ public class Misc {
 
 
     @Expose
-    @ConfigOption(name = "", desc = "")
+    @ConfigOption(name = "Mobs Highlight", desc = "")
     @Accordion
     public MobHighlighterConfig mobHighlighterConfig = new MobHighlighterConfig();
 
@@ -127,9 +127,15 @@ public class Misc {
 
 
         @Expose
-        @ConfigOption(name = "", desc = "")
+        @ConfigOption(name = "Enabled", desc = "")
         @ConfigEditorBoolean
         public boolean enabled = true;
+
+        @Expose
+        @ConfigOption(name = "Render type", desc = "Type of render.")
+        @ConfigEditorDropdown(values = {"Full", "Outline", "Both"})
+        public int renderType = 0;
+
         @Expose
         @ConfigOption(
                 name = "Mob",
@@ -141,10 +147,39 @@ public class Misc {
                         "§bZombie",
                         "§bSkeleton",
                         "§bEnderman",
-                        "§bEndermite"
+                        "§bEndermite",
+                        "§bCow",
+                        "§bChicken",
+                        "§bHorse",
+                        "§bMooshroom",
+                        "§bWolf",
+                        "§bBlaze",
+                        "§bCave Spider",
+                        "§bCreeper",
+                        "§bGhast",
+                        "§bMagma Cuba",
+                        "§bPig Zombie",
+                        "§bSilverfish",
+                        "§bSlime",
+                        "§bSpider",
+                        "§bWither",
+                        "§bDragon",
+                        "§bRabbit",
+                        "§bPig",
+                        "§bSheep"
                 }
         )
         public Property<List<Integer>> mobToHighlight = Property.of(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4)));
+
+        @Expose
+        @ConfigOption(name = "Butterfly", desc = "Highlight butterfly")
+        @ConfigEditorBoolean
+        public boolean butterfly = true;
+
+        @Expose
+        @ConfigOption(name = "Sneaky Creeper", desc = "Creeper but not visible")
+        @ConfigEditorBoolean
+        public boolean sneakyShit = true;
 
     }
 

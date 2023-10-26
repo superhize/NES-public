@@ -1,5 +1,6 @@
 package be.hize.nes.data
 
+import at.hannibal2.skyhanni.events.LorenzTickEvent
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import at.hannibal2.skyhanni.utils.LorenzUtils.isRancherSign
 import at.hannibal2.skyhanni.utils.NEUItems
@@ -21,19 +22,24 @@ import java.util.*
 class GuiEditManager {
 
     @SubscribeEvent
-    fun onTick(event: TickEvent.ClientTickEvent) {
+    fun onTick(event: LorenzTickEvent) {
         if (!LorenzUtils.inSkyBlock) return
+
         Minecraft.getMinecraft().currentScreen?.let {
             if (it !is GuiInventory && it !is GuiChest && it !is GuiEditSign) return
         }
+
         if (!Keyboard.getEventKeyState()) return
         val key = if (Keyboard.getEventKey() == 0) Keyboard.getEventCharacter().code + 256 else Keyboard.getEventKey()
         if (NES.feature.gui.keyBindOpen != key) return
+
         if (NEUItems.neuHasFocus()) return
+
         val screen = Minecraft.getMinecraft().currentScreen
         if (screen is GuiEditSign) {
             if (!screen.isRancherSign()) return
         }
+
         if (isInGui()) return
         openGuiPositionEditor()
     }
@@ -90,7 +96,7 @@ class GuiEditManager {
                 return Vector2i(5, 5)
             } else {
                 val (x, y) = currentBorderSize[internalName] ?: return Vector2i(1, 1)
-                return Vector2i(x, y)
+                return Vector2i((x * effectiveScale).toInt(), (y * effectiveScale).toInt())
             }
         }
 

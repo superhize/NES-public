@@ -37,6 +37,7 @@ repositories {
     }
     maven("https://repo.nea.moe/releases")
     maven("https://repo.hize.be/releases")
+    maven("https://maven.notenoughupdates.org/releases")
 }
 
 val shadowImpl by configurations.creating {
@@ -80,22 +81,22 @@ dependencies {
 
     @Suppress("VulnerableLibrariesLocal")
     implementation("com.github.hannibal002:notenoughupdates:4957f0b:all"){
-        exclude(group = "null", module = "unspecified")// idk
+        exclude(group = "null", module = "unspecified")
     }
     @Suppress("VulnerableLibrariesLocal")
     devenvMod("com.github.hannibal002:notenoughupdates:4957f0b:all"){
-        exclude(group = "null", module = "unspecified")// idk
+        exclude(group = "null", module = "unspecified")
     }
 
-    implementation("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
-        exclude(group = "null", module = "unspecified")// idk
+    implementation("at.hannibal2:SkyHanni:0.21.Beta.11:all-dev"){
+        exclude(group = "null", module = "unspecified")
     }
-    devenvMod("at.hannibal2:SkyHanni:0.20.Beta.6:all-dev"){
-        exclude(group = "null", module = "unspecified")// idk
+    devenvMod("at.hannibal2:SkyHanni:0.21.Beta.11:all-dev"){
+        exclude(group = "null", module = "unspecified")
     }
 
-    shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.1.5")
-    devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.1.5:test")
+    shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.2.0")
+    devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.2.0:test")
 
 
     shadowImpl("moe.nea:libautoupdate:1.0.3")

@@ -1,8 +1,8 @@
 package be.hize.nes.features.misc.discordrpc
 
 import at.hannibal2.skyhanni.data.*
-import at.hannibal2.skyhanni.data.GardenCropMilestones.Companion.getCounter
-import at.hannibal2.skyhanni.data.GardenCropMilestones.Companion.progressToNextLevel
+import at.hannibal2.skyhanni.data.GardenCropMilestones.getCounter
+import at.hannibal2.skyhanni.data.GardenCropMilestones.progressToNextLevel
 import at.hannibal2.skyhanni.features.garden.GardenAPI.getCropType
 import at.hannibal2.skyhanni.features.rift.RiftAPI
 import at.hannibal2.skyhanni.utils.InventoryUtils
@@ -175,15 +175,15 @@ enum class DiscordStatus(private val displayMessageSupplier: Supplier<String>?) 
         be.hize.nes.NES.feature.misc.discordRPC.customSecondLine.get()
     }),
     CROP_MILESTONES({
-        val crop = InventoryUtils.getItemInHand()?.getCropType()
-        val cropCounter = crop?.getCounter()
-        val tier = cropCounter?.let { GardenCropMilestones.getTierForCrops(it) }
+        val crop = InventoryUtils.getItemInHand()?.getCropType() ?: at.hannibal2.skyhanni.features.garden.CropType.MELON
+        val cropCounter = crop.getCounter()
+        val tier = GardenCropMilestones.getTierForCropCount(cropCounter, crop)
 
-        val progress = tier?.let {
+        val progress = tier.let {
             LorenzUtils.formatPercentage(crop.progressToNextLevel())
         } ?: 100
 
-        if (tier != null) {
+        if (true) {
             "${crop.cropName} $tier ($progress)"
         } else {
             "Not farming!"

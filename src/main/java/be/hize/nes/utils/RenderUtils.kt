@@ -3,15 +3,20 @@ package be.hize.nes.utils
 
 import at.hannibal2.skyhanni.utils.LorenzColor
 import at.hannibal2.skyhanni.utils.LorenzUtils
+import at.hannibal2.skyhanni.utils.LorenzVec
+import at.hannibal2.skyhanni.utils.RenderUtils
 import be.hize.nes.config.core.config.Position
 import be.hize.nes.data.GuiEditManager
 import be.hize.nes.data.GuiEditManager.Companion.getAbsX
 import be.hize.nes.data.GuiEditManager.Companion.getAbsY
 import be.hize.nes.utils.renderables.Renderable
+import io.github.moulberry.notenoughupdates.util.Utils
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.entity.Entity
 import net.minecraft.inventory.Slot
+import net.minecraftforge.client.event.RenderWorldLastEvent
 import org.lwjgl.opengl.GL11
 import java.awt.Color
 
@@ -20,12 +25,12 @@ object RenderUtils {
     private fun Position.renderString0(string: String?, offsetX: Int = 0, offsetY: Int = 0): Int {
         val display = "§f$string"
         GlStateManager.pushMatrix()
-
+        transform()
         val minecraft = Minecraft.getMinecraft()
         val renderer = minecraft.renderManager.fontRenderer
 
-        val x = getAbsX() + offsetX
-        val y = getAbsY() + offsetY
+        val x = offsetX
+        val y = offsetY
 
         GlStateManager.translate(x + 1.0, y + 1.0, 0.0)
         renderer.drawStringWithShadow(display, 0f, 0f, 0)
@@ -99,15 +104,17 @@ object RenderUtils {
 
     private fun Position.renderLine(line: List<Any?>, offsetY: Int, itemScale: Double = 1.0): Int {
         GlStateManager.pushMatrix()
-        GlStateManager.translate(getAbsX().toFloat(), (getAbsY() + offsetY).toFloat(), 0F)
+        val mp = transform()
+        GlStateManager.translate(0f, offsetY.toFloat(), 0F)
         var offsetX = 0
-        for (any in line) {
-            val renderable =
-                Renderable.fromAny(any, itemScale = itemScale) ?: throw RuntimeException("Unknown render object: $any")
-
-            renderable.render(getAbsX() + offsetX, getAbsY() + offsetY)
-            offsetX += renderable.width
-            GlStateManager.translate(renderable.width.toFloat(), 0F, 0F)
+        Renderable.withMousePosition(mp.first, mp.second) {
+            for (any in line) {
+                val renderable = Renderable.fromAny(any, itemScale = itemScale)
+                    ?: throw RuntimeException("Unknown render object: $any")
+                renderable.render(offsetX, offsetY)
+                offsetX += renderable.width
+                GlStateManager.translate(renderable.width.toFloat(), 0F, 0F)
+            }
         }
         GlStateManager.popMatrix()
         return offsetX
@@ -136,5 +143,28 @@ object RenderUtils {
         GlStateManager.popMatrix()
 
         if (lightingState) GlStateManager.enableLighting()
+    }
+
+    fun Position.transform(): Pair<Int, Int> {
+        GlStateManager.translate(getAbsX().toFloat(), getAbsY().toFloat(), 0F)
+        GlStateManager.scale(effectiveScale, effectiveScale, 1F)
+        val x = ((Utils.getMouseX() - getAbsX()) / effectiveScale).toInt()
+        val y = ((Utils.getMouseY() - getAbsY()) / effectiveScale).toInt()
+        return x to y
+    }
+
+    fun RenderWorldLastEvent.exactLocation(entity: Entity) = exactLocation(entity, partialTicks)
+
+    fun RenderWorldLastEvent.exactPlayerEyeLocation(): LorenzVec {
+        val player = Minecraft.getMinecraft().thePlayer
+        val add = if (player.isSneaking) LorenzVec(0.0, 1.54, 0.0) else LorenzVec(0.0, 1.62, 0.0)
+        return exactLocation(player).add(add)
+    }
+
+    fun exactLocation(entity: Entity, partialTicks: Float): LorenzVec {
+        val x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * partialTicks
+        val y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * partialTicks
+        val z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * partialTicks
+        return LorenzVec(x, y, z)
     }
 }
