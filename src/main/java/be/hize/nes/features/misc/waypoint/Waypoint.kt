@@ -15,6 +15,7 @@ import at.hannibal2.skyhanni.utils.RenderUtils.drawColor
 import at.hannibal2.skyhanni.utils.RenderUtils.drawDynamicText
 import at.hannibal2.skyhanni.utils.StringUtils.matchMatcher
 import at.hannibal2.skyhanni.utils.StringUtils.removeColor
+import be.hize.nes.NES
 import be.hize.nes.features.misc.waypoint.Waypoint.Command.addWaypoint
 import be.hize.nes.utils.NESLogger
 import net.minecraft.client.Minecraft
@@ -100,7 +101,7 @@ object Waypoint {
         val group: String
     )
 
-    private fun isEnabled() = LorenzUtils.inSkyBlock
+    private fun isEnabled() = LorenzUtils.inSkyBlock && NES.feature.misc.enableWaypoints
 
     object Command {
 

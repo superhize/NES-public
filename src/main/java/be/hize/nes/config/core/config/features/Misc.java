@@ -117,69 +117,42 @@ public class Misc {
         public Property<String> creeperColor = Property.of("0:245:85:255:85");
     }
 
-
     @Expose
-    @ConfigOption(name = "Mobs Highlight", desc = "")
+    @ConfigOption(name = "Farm Border", desc = "")
     @Accordion
-    public MobHighlighterConfig mobHighlighterConfig = new MobHighlighterConfig();
+    public FarmBorderConfig farmBorderConfig = new FarmBorderConfig();
 
-    public static class MobHighlighterConfig {
-
+    public static class FarmBorderConfig {
 
         @Expose
-        @ConfigOption(name = "Enabled", desc = "")
+        @ConfigOption(name = "Enable", desc = "Enable the feature")
         @ConfigEditorBoolean
-        public boolean enabled = true;
+        public boolean enabled = false;
 
         @Expose
-        @ConfigOption(name = "Render type", desc = "Type of render.")
-        @ConfigEditorDropdown(values = {"Full", "Outline", "Both"})
-        public int renderType = 0;
+        @ConfigOption(name = "Check Range", desc = "Range to check walls for")
+        @ConfigEditorSlider(minStep = 1, minValue = 1, maxValue = 10)
+        public int checkRange = 5;
 
         @Expose
-        @ConfigOption(
-                name = "Mob",
-                desc = "Choose which mob to highlight."
-        )
-        @ConfigEditorDraggableList(
-                exampleText = {
-                        "§bIron Golem",
-                        "§bZombie",
-                        "§bSkeleton",
-                        "§bEnderman",
-                        "§bEndermite",
-                        "§bCow",
-                        "§bChicken",
-                        "§bHorse",
-                        "§bMooshroom",
-                        "§bWolf",
-                        "§bBlaze",
-                        "§bCave Spider",
-                        "§bCreeper",
-                        "§bGhast",
-                        "§bMagma Cuba",
-                        "§bPig Zombie",
-                        "§bSilverfish",
-                        "§bSlime",
-                        "§bSpider",
-                        "§bWither",
-                        "§bDragon",
-                        "§bRabbit",
-                        "§bPig",
-                        "§bSheep"
-                }
-        )
-        public Property<List<Integer>> mobToHighlight = Property.of(new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4)));
+        @ConfigOption(name = "Sound", desc = "Sound name")
+        @ConfigEditorText
+        public String soundName = "random.orb";
 
         @Expose
-        @ConfigOption(name = "Butterfly", desc = "Highlight butterfly")
-        @ConfigEditorBoolean
-        public boolean butterfly = true;
+        @ConfigOption(name = "Sound Warp", desc = "Sound name")
+        @ConfigEditorText
+        public String soundNameWarp = "random.orb";
 
         @Expose
-        @ConfigOption(name = "Sneaky Creeper", desc = "Creeper but not visible")
-        @ConfigEditorBoolean
-        public boolean sneakyShit = true;
+        @ConfigOption(name = "Sound Pitch", desc = "Pitch of the sound")
+        @ConfigEditorSlider(minStep = 0.1f, minValue = 0.1f, maxValue = 2.0f)
+        public float soundPitch = 0.5f;
+
+        @Expose
+        @ConfigOption(name = "Sound Volume", desc = "Volume of the sound")
+        @ConfigEditorSlider(minStep = 0.1f, minValue = 0.1f, maxValue = 1.0f)
+        public float soundVolume = 0.5f;
 
     }
 
@@ -273,7 +246,7 @@ public class Misc {
     public boolean hideBossBar = false;
 
     @Expose
-    @ConfigOption(name = "Highlight Powder Chest", desc = "Highlight powder chest in crystal hollows while powder grinding.")
+    @ConfigOption(name = "Enable Waypoints", desc = "Enable Waypoints feature")
     @ConfigEditorBoolean
-    public boolean highlightPowderChest = true;
+    public boolean enableWaypoints = true;
 }
