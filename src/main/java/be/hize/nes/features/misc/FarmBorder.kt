@@ -25,7 +25,7 @@ class FarmBorder {
     fun onTick(event: LorenzTickEvent) {
         if (!config.enabled) return
         if (!event.isMod(5)) return
-        if (!LorenzUtils.inIsland(IslandType.GARDEN)) return
+        if (LorenzUtils.skyBlockIsland != IslandType.GARDEN) return
         if (GardenAPI.toolInHand == null) return
         for (i in 0..config.checkRange) {
             val blockPos1 = LocationUtils.playerLocation().add(LorenzVec(i, 0, 0)).toBlocPos()

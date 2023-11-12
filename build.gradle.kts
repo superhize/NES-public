@@ -14,7 +14,7 @@ plugins {
 
 val modid = "nes"
 group = "be.hize.nes"
-version = "0.1.Beta.7"
+version = "0.1.Beta.7.1"
 val mcVersion = "1.8.9"
 val mixinGroup = "$group.mixin"
 
@@ -88,10 +88,10 @@ dependencies {
         exclude(group = "null", module = "unspecified")
     }
 
-    implementation("at.hannibal2:SkyHanni:0.21.Beta.11:all-dev"){
+    implementation("at.hannibal2:SkyHanni:0.21:all-dev"){
         exclude(group = "null", module = "unspecified")
     }
-    devenvMod("at.hannibal2:SkyHanni:0.21.Beta.11:all-dev"){
+    devenvMod("at.hannibal2:SkyHanni:0.21:all-dev"){
         exclude(group = "null", module = "unspecified")
     }
 
