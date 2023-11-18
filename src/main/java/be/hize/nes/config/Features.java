@@ -50,7 +50,7 @@ public class Features extends Config {
     public GUI gui = new GUI();
 
     @Expose
-    @Category(name = "Misc", desc = "Misc Features")
+    @Category(name = "Misc", desc = "Gonna put everything here, you have category on the left, that's good enough")
     public Misc misc = new Misc();
 
     /*@Expose

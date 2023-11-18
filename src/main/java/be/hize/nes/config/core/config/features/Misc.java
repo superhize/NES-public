@@ -12,8 +12,7 @@ import java.util.List;
 public class Misc {
 
     @Expose
-    @ConfigOption(name = "DiscordRPC", desc = "")
-    @Accordion
+    @Category(name = "Discord RPC", desc = "")
     public DiscordRPC discordRPC = new DiscordRPC();
 
     public static class DiscordRPC {
@@ -72,8 +71,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Mist", desc = "")
-    @Accordion
+    @Category(name = "Ghosts", desc = "Ghost and Mist Config")
     public Ghost ghost = new Ghost();
 
     public static class Ghost {
@@ -118,8 +116,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Farm Border", desc = "")
-    @Accordion
+    @Category(name = "Farm thing", desc = "Designed for me, not for you")
     public FarmBorderConfig farmBorderConfig = new FarmBorderConfig();
 
     public static class FarmBorderConfig {
@@ -157,8 +154,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Show FPS", desc = "")
-    @Accordion
+    @Category(name = "FPS", desc = "")
     public FPS fps = new FPS();
 
     public static class FPS {
@@ -177,8 +173,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Show Coordinates", desc = "")
-    @Accordion
+    @Category(name = "Coordinate", desc = "")
     public Coordinate coordinate = new Coordinate();
 
     public static class Coordinate {
@@ -192,8 +187,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Show Facing", desc = "")
-    @Accordion
+    @Category(name = "Facing", desc = "")
     public Facing facing = new Facing();
 
     public static class Facing {
@@ -207,8 +201,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Item Rarity", desc = "")
-    @Accordion
+    @Category(name = "Item Rarity", desc = "")
     public ItemRarity itemRarity = new ItemRarity();
 
     public static class ItemRarity {
@@ -219,8 +212,7 @@ public class Misc {
     }
 
     @Expose
-    @ConfigOption(name = "Trapper Helper", desc = "")
-    @Accordion
+    @Category(name = "Trapper", desc = "")
     public Trapper trapper = new Trapper();
 
     public static class Trapper {

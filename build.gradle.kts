@@ -95,8 +95,8 @@ dependencies {
         exclude(group = "null", module = "unspecified")
     }
 
-    shadowModImpl("com.github.NotEnoughUpdates:MoulConfig:1.2.0")
-    devenvMod("com.github.NotEnoughUpdates:MoulConfig:1.2.0:test")
+    shadowModImpl("org.notenoughupdates.moulconfig:legacy:2.4.3")
+    devenvMod("org.notenoughupdates.moulconfig:legacy:2.4.3:test")
 
 
     shadowImpl("moe.nea:libautoupdate:1.0.3")
