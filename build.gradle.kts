@@ -205,7 +205,7 @@ tasks.shadowJar {
     }
     fun relocate(name: String) = relocate(name, "be.hize.nes.deps.$name")
 
-    relocate("io.github.moulberry.moulconfig")
+    relocate("org.notenoughupdates.moulconfig")
     relocate("com.jagrosh.discordipc")
     relocate("moe.nea.libautoupdate")
 }
