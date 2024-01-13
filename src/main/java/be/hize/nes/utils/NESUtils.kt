@@ -1,14 +1,19 @@
 package be.hize.nes.utils
 
 import at.hannibal2.skyhanni.utils.ItemUtils.getLore
+import at.hannibal2.skyhanni.utils.LorenzUtils
+import at.hannibal2.skyhanni.utils.StringUtils.removeColor
 import be.hize.nes.utils.renderables.Renderable
 import io.github.moulberry.moulconfig.observer.Observer
 import io.github.moulberry.moulconfig.observer.Property
+import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ChatComponentText
 import java.util.*
 
 object NESUtils {
 
+    private const val CHAT_PREFIX = "[NES] "
 
     private fun <T> onChange(vararg properties: Property<out T>, observer: Observer<T>) {
         for (property in properties) {
@@ -74,5 +79,30 @@ object NESUtils {
             "§c§l" -> 'c'
             else -> 'c'
         }
+    }
+
+    fun chat(message: String, prefix: Boolean = true, prefixColor: String = "§e") {
+        if (prefix) {
+            internalChat(prefixColor + CHAT_PREFIX + message)
+        } else {
+            internalChat(message)
+        }
+    }
+
+    private fun internalChat(message: String): Boolean {
+        val minecraft = Minecraft.getMinecraft()
+        if (minecraft == null) {
+            LorenzUtils.consoleLog(message.removeColor())
+            return false
+        }
+
+        val thePlayer = minecraft.thePlayer
+        if (thePlayer == null) {
+            LorenzUtils.consoleLog(message.removeColor())
+            return false
+        }
+
+        thePlayer.addChatMessage(ChatComponentText(message))
+        return true
     }
 }
