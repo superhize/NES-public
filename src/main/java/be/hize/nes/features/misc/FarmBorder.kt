@@ -28,8 +28,8 @@ class FarmBorder {
         if (LorenzUtils.skyBlockIsland != IslandType.GARDEN) return
         if (GardenAPI.toolInHand == null) return
         for (i in 0..config.checkRange) {
-            val blockPos1 = LocationUtils.playerLocation().add(LorenzVec(i, 0, 0)).toBlocPos()
-            val blockPos2 = LocationUtils.playerLocation().add(LorenzVec(-i, 0, 0)).toBlocPos()
+            val blockPos1 = LocationUtils.playerLocation().add(LorenzVec(i, 0, 0)).toBlockPos()
+            val blockPos2 = LocationUtils.playerLocation().add(LorenzVec(-i, 0, 0)).toBlockPos()
             val block1 = Minecraft.getMinecraft().theWorld.getBlockState(blockPos1).block
             val block2 = Minecraft.getMinecraft().theWorld.getBlockState(blockPos2).block
             if (block1 == Blocks.quartz_block || block2 == Blocks.quartz_block) {
