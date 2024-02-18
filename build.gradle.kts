@@ -8,6 +8,8 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.8.0"
+    id("maven-publish")
+    signing
 }
 
 //Constants:
@@ -88,10 +90,10 @@ dependencies {
         exclude(group = "null", module = "unspecified")
     }
 
-    implementation("at.hannibal2:SkyHanni:0.22.Beta.10:all-dev"){
+    implementation("at.hannibal2:SkyHanni:0.23.custom:all-dev"){
         exclude(group = "null", module = "unspecified")
     }
-    devenvMod("at.hannibal2:SkyHanni:0.22.Beta.10:all-dev"){
+    devenvMod("at.hannibal2:SkyHanni:0.23.custom:all-dev"){
         exclude(group = "null", module = "unspecified")
     }
 

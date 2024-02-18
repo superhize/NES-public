@@ -1,11 +1,10 @@
 package be.hize.nes.features.misc
 
 import at.hannibal2.skyhanni.events.LorenzTickEvent
+import at.hannibal2.skyhanni.utils.CollectionUtils.addAsSingletonList
 import at.hannibal2.skyhanni.utils.LorenzUtils
-import at.hannibal2.skyhanni.utils.LorenzUtils.addAsSingletonList
 import be.hize.nes.NES
 import be.hize.nes.events.GuiRenderEvent
-import be.hize.nes.utils.RenderUtils.renderStrings
 import be.hize.nes.utils.RenderUtils.renderStringsAndItems
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent

@@ -6,6 +6,7 @@ import at.hannibal2.skyhanni.events.HypixelJoinEvent
 import at.hannibal2.skyhanni.events.LorenzChatEvent
 import at.hannibal2.skyhanni.events.ProfileJoinEvent
 import at.hannibal2.skyhanni.events.TabListUpdateEvent
+import at.hannibal2.skyhanni.utils.ChatUtils
 import at.hannibal2.skyhanni.utils.LorenzUtils
 import at.hannibal2.skyhanni.utils.StringUtils.matchMatcher
 import be.hize.nes.NES
@@ -41,7 +42,7 @@ object ProfileStorageData {
 
         val playerSpecific = playerSpecific
         if (playerSpecific == null) {
-            LorenzUtils.error("profileSpecific after profile swap can not be set: playerSpecific is null!")
+            ChatUtils.error("profileSpecific after profile swap can not be set: playerSpecific is null!")
             return
         }
         loadProfileSpecific(playerSpecific, profileName, "profile swap (chat message)")
@@ -52,7 +53,7 @@ object ProfileStorageData {
     fun onProfileJoin(event: ProfileJoinEvent) {
         val playerSpecific = playerSpecific
         if (playerSpecific == null) {
-            LorenzUtils.error("playerSpecific is null in ProfileJoinEvent!")
+            ChatUtils.error("playerSpecific is null in ProfileJoinEvent!")
             return
         }
 
