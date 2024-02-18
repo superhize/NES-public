@@ -3,7 +3,6 @@ package be.hize.nes.config
 import at.hannibal2.skyhanni.utils.LorenzVec
 import at.hannibal2.skyhanni.utils.NEUItems
 import be.hize.nes.NES
-import be.hize.nes.features.misc.update.UpdateManager
 import be.hize.nes.utils.NESLogger
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
@@ -119,7 +118,6 @@ class ConfigManager {
         val features = NES.feature
         processor = MoulConfigProcessor(NES.feature)
         BuiltinMoulConfigGuis.addProcessors(processor)
-        UpdateManager.injectConfigProcessor(processor)
         ConfigProcessorDriver.processConfig(
             features.javaClass,
             features,

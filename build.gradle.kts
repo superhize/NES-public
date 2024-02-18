@@ -101,7 +101,7 @@ dependencies {
     devenvMod("org.notenoughupdates.moulconfig:legacy:2.4.3:test")
 
 
-    shadowImpl("moe.nea:libautoupdate:1.0.3")
+    shadowImpl("moe.nea:libautoupdate:1.2.0")
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 }
 kotlin {

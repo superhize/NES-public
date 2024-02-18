@@ -6,6 +6,8 @@ import be.hize.nes.data.GuiEditManager
 import be.hize.nes.features.misc.RawChatMessage
 import be.hize.nes.features.misc.waypoint.Waypoint
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
+import be.hize.nes.features.update.AutoUpdate
+import be.hize.nes.utils.CommandActionRegistry
 import net.minecraft.client.Minecraft
 import net.minecraft.command.ICommandSender
 import net.minecraft.event.ClickEvent
@@ -73,6 +75,7 @@ object Commands {
     private fun usersMain() {
         registerCommand("nes", "Open the main menu", openMainMenu)
         registerCommand("nescommands", "Show this list") { commandHelp(it) }
+        registerCommand("nesupdate", "Check for updates") { AutoUpdate.onCommand()}
     }
 
     private fun usersNormal() {
@@ -140,6 +143,7 @@ object Commands {
 
     private fun registerCommand(name: String, description: String, function: (Array<String>) -> Unit) {
         ClientCommandHandler.instance.registerCommand(SimpleCommand(name, createCommand(function)))
+        ClientCommandHandler.instance.registerCommand(CommandActionRegistry)
         commands.add(CommandInfo(name, description, currentCategory))
     }
 

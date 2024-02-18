@@ -9,8 +9,8 @@ import be.hize.nes.data.RenderGuiData
 import be.hize.nes.features.misc.*
 import be.hize.nes.features.misc.coordinate.ShowCoordinate
 import be.hize.nes.features.misc.discordrpc.DiscordRPCManager
-import be.hize.nes.features.misc.update.UpdateManager
 import be.hize.nes.features.misc.waypoint.Waypoint
+import be.hize.nes.features.update.AutoUpdate
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -35,7 +35,6 @@ import org.apache.logging.log4j.Logger
     clientSideOnly = true,
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
-    version = "0.1.Beta.8",
     name = "NotEnoughSkyhanni"
 )
 internal class NES {
@@ -53,7 +52,6 @@ internal class NES {
         loadModule(Trapper())
         loadModule(Ghost)
         loadModule(ButtonOnPause())
-        loadModule(UpdateManager)
         loadModule(PowderGhastHighlight())
         loadModule(RawChatMessage)
         loadModule(Waypoint)
@@ -67,6 +65,8 @@ internal class NES {
         configManager = ConfigManager()
         configManager.firstLoad()
         Runtime.getRuntime().addShutdownHook(Thread { configManager.saveConfig("shutdown-hook") })
+
+        loadModule(AutoUpdate)
     }
 
     private fun loadModule(obj: Any) {

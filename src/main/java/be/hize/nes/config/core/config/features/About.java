@@ -1,48 +1,15 @@
 package be.hize.nes.config.core.config.features;
 
 import at.hannibal2.skyhanni.utils.OSUtils;
-import be.hize.nes.features.misc.update.ConfigVersionDisplay;
 import com.google.gson.annotations.Expose;
 import io.github.moulberry.moulconfig.annotations.*;
-import io.github.moulberry.moulconfig.observer.Property;
 
 public class About {
-    @ConfigOption(name = "Current Version", desc = "This is the NES version you are running currently")
-    @ConfigVersionDisplay
-    public transient Void currentVersion = null;
 
     @ConfigOption(name = "Auto Updates", desc = "Automatically check for updates on each startup")
     @Expose
     @ConfigEditorBoolean
     public boolean autoUpdates = true;
-
-    @ConfigOption(name = "Update Stream", desc = "How frequently do you want updates for NES")
-    @Expose
-    @ConfigEditorDropdown
-    public Property<UpdateStream> updateStream = Property.of(UpdateStream.RELEASES);
-
-    public enum UpdateStream {
-        NONE("None", "none"),
-        BETA("Beta", "pre"),
-        RELEASES("Full", "full");
-
-        private final String label;
-        private final String stream;
-
-        UpdateStream(String label, String stream) {
-            this.label = label;
-            this.stream = stream;
-        }
-
-        public String getStream() {
-            return stream;
-        }
-
-        @Override
-        public String toString() {
-            return label;
-        }
-    }
     @ConfigOption(name = "Used Software", desc = "Information about used software and licenses")
     @Accordion
     @Expose
