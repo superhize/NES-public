@@ -16,7 +16,7 @@ plugins {
 
 val modid = "nes"
 group = "be.hize.nes"
-version = "0.1.Beta.9"
+version = "0.1.Beta.10"
 val mcVersion = "1.8.9"
 val mixinGroup = "$group.mixin"
 
@@ -222,4 +222,39 @@ sourceSets.main {
     kotlin.destinationDirectory.set(java.destinationDirectory)
     java.srcDir(file("$projectDir/src/main/kotlin"))
     output.setResourcesDir(java.destinationDirectory)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            artifact(tasks.remapJar) {
+                classifier = "useme"
+            }
+            artifact(tasks.jar) {
+                classifier = "named"
+            }
+            pom {
+                name.set(project.name)
+                description.set("NES")
+                licenses {
+                    license {
+                        name.set("GPL-3.0-or-later")
+                    }
+                }
+                developers {
+                    developer {
+                        name.set("HiZe")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/superhize/NES-public")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign(publishing.publications["maven"])
 }
