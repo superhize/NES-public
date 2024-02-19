@@ -2,7 +2,7 @@
   {
     "modid": "${modid}",
     "name": "NES",
-    "description": "Kinda an add-ons for SkyHanni",
+    "description": "Features",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "https://github.com/superhize/NES-public",
@@ -10,9 +10,9 @@
     "authorList": [
       "HiZe"
     ],
-    "credits": ["hannibal2", "nea89", "moulberry"],
+    "credits": "hannibal2, nea89 and moulberry",
     "logoFile": "",
     "screenshots": [],
-    "dependencies": ["NotEnoughUpdates", "SkyHanni"]
+    "dependencies": ["NotEnoughUpdate", "SkyHanni"]
   }
 ]

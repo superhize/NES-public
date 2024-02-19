@@ -74,12 +74,12 @@ object ErrorManager {
         val randomId = UUID.randomUUID().toString()
 
         val rawMessage = message.removeColor()
-        errorMessages[randomId] = "```\nSkyHanni ${NES.version}: $rawMessage\n \n$stackTrace\n```"
+        errorMessages[randomId] = "```\nSkyHanni ${NES.version2}: $rawMessage\n \n$stackTrace\n```"
         fullErrorMessages[randomId] =
-            "```\nSkyHanni ${NES.version}: $rawMessage\n(full stack trace)\n \n$fullStackTrace\n```"
+            "```\nSkyHanni ${NES.version2}: $rawMessage\n(full stack trace)\n \n$fullStackTrace\n```"
 
         LorenzUtils.clickableChat(
-            "§c[SkyHanni ${NES.version}]: $message§c. Click here to copy the error into the clipboard.",
+            "§c[SkyHanni ${NES.version2}]: $message§c. Click here to copy the error into the clipboard.",
             "shcopyerror $randomId"
         )
     }

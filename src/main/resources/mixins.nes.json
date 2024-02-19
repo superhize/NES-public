@@ -1,14 +1,10 @@
 {
-  "package": "be.hize.nes.mixin.transformers",
-  "refmap": "mixins.${modid}.refmap.json",
-  "minVersion": "0.7",
-  "compatibilityLevel": "JAVA_8",
-  "mixins": [
-    "MixinBlockRendererDispatcher",
-    "MixinEntityRenderer",
-    "MixinLayerCreeperCharge",
-    "MixinRenderItem"
-  ],
-  "verbose": true,
-  "client": []
-  }
+    "package": "be.hize.nes.mixin.transformers",
+    "refmap": "mixins.${modid}.refmap.json",
+    "plugin": "be.hize.nes.mixin.init.NESMixinPlugin",
+    "minVersion": "0.7",
+    "compatibilityLevel": "JAVA_8",
+    "injectors": {
+        "maxShiftBy": 2
+    }
+}

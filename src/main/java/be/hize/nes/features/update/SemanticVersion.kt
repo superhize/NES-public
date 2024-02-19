@@ -2,12 +2,14 @@ package be.hize.nes.features.update
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import moe.nea.libautoupdate.CurrentVersion
 
-class SemanticVersion(val major: Int, val minor: Int, val patch: Int) : moe.nea.libautoupdate.CurrentVersion,
+class SemanticVersion(val major: Int, val minor: Int, val patch: Int) : CurrentVersion,
     Comparable<SemanticVersion> {
 
     companion object {
         fun fromString(semverString: String): SemanticVersion? {
+
             val match = semverRegex.matchEntire(semverString) ?: return null
             val (_, major, minor, patch) = match.groupValues
             return SemanticVersion(

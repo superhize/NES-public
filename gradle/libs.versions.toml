@@ -1,0 +1,7 @@
+[versions]
+libautoupdate = "1.2.0"
+moulconfig = "3.0.0-beta.3"
+
+[libraries]
+moulconfig = { module = "org.notenoughupdates.moulconfig:legacy", version.ref = "moulconfig" }
+libautoupdate = { module = "moe.nea:libautoupdate", version.ref = "libautoupdate" }

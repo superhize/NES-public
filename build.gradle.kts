@@ -8,49 +8,61 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.8.0"
-    id("maven-publish")
+    `maven-publish`
     signing
 }
 
 //Constants:
 
-val modid = "nes"
-group = "be.hize.nes"
-version = "0.1.Beta.10"
-val mcVersion = "1.8.9"
-val mixinGroup = "$group.mixin"
+val baseGroup: String by project
+val mcVersion: String by project
+version = "0.0.6"
+group = "be.hize"
+val mixinGroup = "$baseGroup.mixin"
+val modid: String by project
+
 
 // Toolchains:
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(8))
+}
+
+sourceSets.main {
+    output.setResourcesDir(sourceSets.main.flatMap { it.java.classesDirectory })
+    java.srcDir(layout.projectDirectory.dir("src/main/kotlin"))
+    kotlin.destinationDirectory.set(java.destinationDirectory)
 }
 // Dependencies:
 
 repositories {
     mavenCentral()
     mavenLocal()
+
     maven("https://repo.spongepowered.org/maven/")
+
     // If you don't want to log in with your real minecraft account, remove this line
     maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+
+    maven("https://repo.nea.moe/releases")
+    maven("https://repo.hize.be/releases")
+    maven("https://maven.notenoughupdates.org/releases")
+
     maven("https://jitpack.io") {
         content {
             includeGroupByRegex("com\\.github\\..*")
         }
     }
-    maven("https://repo.nea.moe/releases")
-    maven("https://repo.hize.be/releases")
-    maven("https://maven.notenoughupdates.org/releases")
 }
 
-val shadowImpl by configurations.creating {
+val shadowImpl: Configuration by configurations.creating {
     configurations.implementation.get().extendsFrom(this)
 }
 
-val shadowModImpl by configurations.creating {
+val shadowModImpl: Configuration by configurations.creating {
     configurations.modImplementation.get().extendsFrom(this)
 }
 
-val devenvMod by configurations.creating {
+val devenvMod: Configuration by configurations.creating {
     isTransitive = false
     isVisible = false
 }
@@ -60,11 +72,9 @@ dependencies {
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
-    shadowImpl("com.github.ILikePlayingGames:DiscordIPC:f91ed4b") {
-        exclude(module = "log4j")
-        because("Different version conflicts with Minecraft's Log4J")
-        exclude(module = "gson")
-        because("Different version conflicts with Minecraft's Log4j")
+    implementation(kotlin("stdlib-jdk8"))
+    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") {
+        exclude(group = "org.jetbrains.kotlin")
     }
 
     // If you don't want mixins, remove these lines
@@ -73,13 +83,13 @@ dependencies {
     }
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
 
-    implementation(kotlin("stdlib-jdk8"))
-    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4") {
-        exclude(group = "org.jetbrains.kotlin")
-    }
 
-    // If you don't want to log in with your real minecraft account, remove this line
-   // modRuntimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
+    shadowImpl("com.github.ILikePlayingGames:DiscordIPC:f91ed4b") {
+        exclude(module = "log4j")
+        because("Different version conflicts with Minecraft's Log4J")
+        exclude(module = "gson")
+        because("Different version conflicts with Minecraft's Log4j")
+    }
 
     @Suppress("VulnerableLibrariesLocal")
     implementation("com.github.hannibal002:notenoughupdates:4957f0b:all"){
@@ -97,13 +107,36 @@ dependencies {
         exclude(group = "null", module = "unspecified")
     }
 
-    shadowModImpl("org.notenoughupdates.moulconfig:legacy:2.4.3")
-    devenvMod("org.notenoughupdates.moulconfig:legacy:2.4.3:test")
+    shadowModImpl(libs.moulconfig)
+    devenvMod(variantOf(libs.moulconfig) { classifier("test") })
 
-
-    shadowImpl("moe.nea:libautoupdate:1.2.0")
+    shadowImpl(libs.libautoupdate)
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 }
+
+loom {
+    launchConfigs {
+        "client" {
+            // If you don't want mixins, remove these lines
+            property("mixin.debug", "true")
+            property("asmhelper.verbose", "true")
+            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
+
+            arg("--mods", devenvMod.resolve().joinToString(",") { it.relativeTo(file("run")).path })
+        }
+    }
+    forge {
+        pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
+        // If you don't want mixins, remove this lines
+        mixinConfig("mixins.$modid.json")
+    }
+    // If you don't want mixins, remove these lines
+    @Suppress("UnstableApiUsage")
+    mixin {
+        defaultRefmapName.set("mixins.$modid.refmap.json")
+    }
+}
+
 kotlin {
     sourceSets.all {
         languageSettings {
@@ -113,44 +146,16 @@ kotlin {
     }
 }
 
-// Minecraft configuration:
-loom {
-    log4jConfigs.from(file("log4j2.xml"))
-    launchConfigs {
-        "client" {
-            // If you don't want mixins, remove these lines
-            property("mixin.debug", "true")
-            property("asmhelper.verbose", "true")
-            arg("--tweakClass", "org.spongepowered.asm.launch.MixinTweaker")
-            arg("--mixin", "mixins.$modid.json")
-            val modFiles = devenvMod.incoming.artifacts.resolvedArtifacts.get()
-            arg("--mods", modFiles.joinToString(",") { it.file.relativeTo(file("run")).path })
-        }
-    }
-    forge {
-        pack200Provider.set(dev.architectury.pack200.java.Pack200Adapter())
-        // If you don't want mixins, remove this lines
-        mixinConfig("mixins.$modid.json")
-    }
-    // If you don't want mixins, remove these lines
-    mixin {
-        defaultRefmapName.set("mixins.$modid.refmap.json")
-    }
-    runConfigs {
-        "server" {
-            isIdeConfigGenerated = false
-        }
-    }
+tasks.compileJava {
+    dependsOn(tasks.processResources)
 }
-
-// Tasks:
 
 tasks.withType(JavaCompile::class) {
     options.encoding = "UTF-8"
 }
 
 tasks.withType(Jar::class) {
-    archiveBaseName.set("nes")
+    archiveBaseName.set(modid)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest.attributes.run {
         this["FMLCorePluginContainsFMLMod"] = "true"
@@ -163,13 +168,14 @@ tasks.withType(Jar::class) {
 }
 
 tasks.processResources {
-    inputs.property("version", project.version)
+    inputs.property("version", version)
     inputs.property("mcversion", mcVersion)
     inputs.property("modid", modid)
     inputs.property("mixinGroup", mixinGroup)
 
     filesMatching(listOf("mcmod.info", "mixins.$modid.json")) {
         expand(inputs.properties)
+        expand("version" to version)
     }
 
     rename("(.+_at.cfg)", "META-INF/$1")
@@ -181,18 +187,8 @@ val remapJar by tasks.named<net.fabricmc.loom.task.RemapJarTask>("remapJar") {
     input.set(tasks.shadowJar.get().archiveFile)
 }
 
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-
 tasks.jar {
-    archiveClassifier.set("nodeps")
+    archiveClassifier.set("without-deps")
     destinationDirectory.set(layout.buildDirectory.dir("badjars"))
 }
 
@@ -202,26 +198,27 @@ tasks.shadowJar {
     configurations = listOf(shadowImpl, shadowModImpl)
     doLast {
         configurations.forEach {
-            println("Config: ${it.files}")
+            println("Copying jars into mod: ${it.files}")
         }
     }
-    fun relocate(name: String) = relocate(name, "be.hize.nes.deps.$name")
+    exclude("META-INF/versions/**")
 
-    relocate("org.notenoughupdates.moulconfig")
-    relocate("com.jagrosh.discordipc")
-    relocate("moe.nea.libautoupdate")
+    relocate("io.github.moulberry.moulconfig", "$baseGroup.deps.moulconfig")
+    relocate("moe.nea.libautoupdate", "$baseGroup.deps.libautoupdate")
+    relocate("com.jagrosh.discordipc", "$baseGroup.deps.discordipc")
+    mergeServiceFiles()
+}
+
+tasks.jar {
+    archiveClassifier.set("nodeps")
+    destinationDirectory.set(layout.buildDirectory.dir("badjars"))
 }
 
 tasks.assemble.get().dependsOn(tasks.remapJar)
 
-tasks.compileJava {
-    dependsOn(tasks.processResources)
-}
-
-sourceSets.main {
-    kotlin.destinationDirectory.set(java.destinationDirectory)
-    java.srcDir(file("$projectDir/src/main/kotlin"))
-    output.setResourcesDir(java.destinationDirectory)
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
 
 publishing {

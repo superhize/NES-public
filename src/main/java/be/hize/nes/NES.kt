@@ -35,13 +35,13 @@ import org.apache.logging.log4j.Logger
     clientSideOnly = true,
     useMetadata = true,
     guiFactory = "be.hize.nes.config.ConfigGuiForgeInterop",
-    name = "NotEnoughSkyhanni"
-)
+    name = "NotEnoughSkyhanni")
 internal class NES {
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         loadModule(this)
+
         loadModule(ProfileStorageData)
         loadModule(GuiEditManager())
         loadModule(RenderGuiData())
@@ -65,7 +65,8 @@ internal class NES {
         configManager = ConfigManager()
         configManager.firstLoad()
         Runtime.getRuntime().addShutdownHook(Thread { configManager.saveConfig("shutdown-hook") })
-
+        println("version: $version2")
+        println("map: ${Loader.instance().indexedModList}")
         loadModule(AutoUpdate)
     }
 
@@ -96,18 +97,15 @@ internal class NES {
         const val MODID = "nes"
 
         @JvmStatic
-        val version: String
+        val version2: String
             get() = Loader.instance().indexedModList[MODID]!!.version
 
         @JvmStatic
         val feature: Features get() = configManager.features
         lateinit var configManager: ConfigManager
         val logger: Logger = LogManager.getLogger("NES")
-        fun getLogger(name: String): Logger {
-            return LogManager.getLogger("NES.$name")
-        }
-
         val modules: MutableList<Any> = ArrayList()
+
         val globalJob: Job = Job(null)
         val coroutineScope = CoroutineScope(
             CoroutineName("NES") + SupervisorJob(globalJob)

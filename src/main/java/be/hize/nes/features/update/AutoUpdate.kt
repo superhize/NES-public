@@ -15,7 +15,7 @@ object AutoUpdate {
     val updater = UpdateContext(
         UpdateSource.mavenSource("https://repo.hize.be/releases", "be.hize", "nes"),
         UpdateTarget.deleteAndSaveInTheSameFolder(AutoUpdate::class.java),
-        SemanticVersion.fromString(NES.version)!!,
+        SemanticVersion.fromString(NES.version2)!!,
         NES.MODID
     )
 

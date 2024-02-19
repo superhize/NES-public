@@ -13,9 +13,16 @@ import io.github.moulberry.moulconfig.processor.BuiltinMoulConfigGuis
 import io.github.moulberry.moulconfig.processor.ConfigProcessorDriver
 import io.github.moulberry.moulconfig.processor.MoulConfigProcessor
 import net.minecraft.item.ItemStack
-import java.io.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.UUID
 import kotlin.concurrent.fixedRateTimer
 
 class ConfigManager {
@@ -118,11 +125,8 @@ class ConfigManager {
         val features = NES.feature
         processor = MoulConfigProcessor(NES.feature)
         BuiltinMoulConfigGuis.addProcessors(processor)
-        ConfigProcessorDriver.processConfig(
-            features.javaClass,
-            features,
-            processor
-        )
+        val configProcessorDriver = ConfigProcessorDriver(processor)
+        configProcessorDriver.processConfig(features)
     }
 
     fun saveConfig(reason: String) {

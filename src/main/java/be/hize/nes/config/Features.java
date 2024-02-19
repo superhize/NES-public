@@ -38,7 +38,7 @@ public class Features extends Config {
 
     @Override
     public String getTitle() {
-        return "NES " + NES.getVersion() + " by §cHiZe§r, config by §5Moulberry §rand §5nea89";
+        return "NES " + NES.getVersion2() + " by §cHiZe§r, config by §5Moulberry §rand §5nea89";
     }
 
     @Expose
