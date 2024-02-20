@@ -14,7 +14,7 @@ enum class MessageMode(val color: EnumChatFormatting) {
     INFO(EnumChatFormatting.AQUA), ERROR(EnumChatFormatting.RED), FATAL(EnumChatFormatting.DARK_RED);
 
     fun format(comp: IChatComponent): IChatComponent {
-        val b = ChatComponentText("§e[OnlyFarm] §r")
+        val b = ChatComponentText("§e[NES] §r")
         b.chatStyle.color = color
         b.appendSibling(comp)
         return b
@@ -22,7 +22,7 @@ enum class MessageMode(val color: EnumChatFormatting) {
 }
 
 object CommandActionRegistry : CommandBase() {
-    override fun getCommandName(): String = "__ofactioncallback"
+    override fun getCommandName(): String = "__nesactioncallback"
 
     override fun getCommandUsage(sender: ICommandSender?): String = "Do not directly use this"
     override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean = true
