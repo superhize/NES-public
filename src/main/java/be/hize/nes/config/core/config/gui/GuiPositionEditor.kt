@@ -13,15 +13,17 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.util.ResourceLocation
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
+import java.awt.Color
 import java.io.IOException
 
-class GuiPositionEditor(private val positions: List<Position>, private val border: Int) : GuiScreen() {
+class GuiPositionEditor(private val positions: List<Position>, private val border: Int, private val lastScreen: GuiScreen?) : GuiScreen() {
     private var grabbedX = 0
     private var grabbedY = 0
     private var clickedPos = -1
-
+    private var GENERIC_54 = ResourceLocation("textures/gui/container/generic_54.png")
     override fun onGuiClosed() {
         super.onGuiClosed()
         clickedPos = -1
@@ -32,8 +34,21 @@ class GuiPositionEditor(private val positions: List<Position>, private val borde
         super.drawScreen(unusedX, unusedY, partialTicks)
         drawDefaultBackground()
 
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+        mc.textureManager.bindTexture(GENERIC_54)
+        val inventoryRows = 54 / 9
+        val a = 222
+        val b = a - 108
+        val ySize = b + inventoryRows * 18
+        val i: Int = (width - 176) / 2
+        val j: Int = (height - ySize) / 2
+        this.drawTexturedModalRect(i, j, 0, 0, 176, inventoryRows * 18 + 17)
+        this.drawTexturedModalRect(i, j + inventoryRows * 18 + 17, 0, 126, 176, 96)
+        this.drawCenteredString(mc.fontRendererObj, "Dummy", i + 20, j + 5, Color.GRAY.rgb)
+        if (lastScreen != null) {
+            println("name: ${lastScreen.javaClass.simpleName}")
+        }
         val hoveredPos = renderRectangles()
-
         renderLabels(hoveredPos)
     }
 
