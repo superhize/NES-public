@@ -19,4 +19,4 @@ Basically i take whatever features i like in others mods and i put them here (+e
 - [SkyBlockAddons](https://github.com/BiscuitDevelopment/SkyblockAddons)
 - [Skytils](https://github.com/Skytils/SkytilsMod)
 
-May contain features that work as intended
+May contain features that work as intended  
